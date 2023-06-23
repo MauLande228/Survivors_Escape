@@ -54,6 +54,8 @@ namespace SurvivorsEscape
         private Vector3 _newVelocity;
         private Quaternion _newRotation;
 
+        private bool _proning;
+
         private void Start()
         {
             _animator = GetComponent<Animator>();
@@ -83,6 +85,8 @@ namespace SurvivorsEscape
 
         private void Update()
         {
+            if (_proning) return;
+
             Vector3 moveInputVector = new Vector3(_inputs.MoveAxisRight, 0, _inputs.MoveAxisForward).normalized;
             Vector3 cameraPlanarDirection = _cameraController._cameraPlanarDirection;
             Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection);
@@ -114,6 +118,8 @@ namespace SurvivorsEscape
 
         private void LateUpdate()
         {
+            if (_proning) return;
+
             switch (_stance)
             {
                 case CharacterStance.STANDING:
@@ -159,6 +165,10 @@ namespace SurvivorsEscape
                     {
                         if (!CharacterOverlap(_proningCapsule))
                         {
+                            _newSpeed = 0;
+                            _proning = true;
+                            _animator.SetFloat("Forward", 0);
+
                             _runSpeed = _proningSpeed.x;
                             _sprintSpeed = _proningSpeed.y;
                             _rotationSharpness = _proningRotationSharpness;
@@ -192,6 +202,10 @@ namespace SurvivorsEscape
                     {
                         if (!CharacterOverlap(_proningCapsule))
                         {
+                            _newSpeed = 0;
+                            _proning = true;
+                            _animator.SetFloat("Forward", 0);
+
                             _runSpeed = _proningSpeed.x;
                             _sprintSpeed = _proningSpeed.y;
                             _rotationSharpness = _proningRotationSharpness;
@@ -210,6 +224,10 @@ namespace SurvivorsEscape
                     {
                         if (!CharacterOverlap(_standingCapsule))
                         {
+                            _newSpeed = 0;
+                            _proning = true;
+                            _animator.SetFloat("Forward", 0);
+
                             _runSpeed = _standingSpeed.x;
                             _sprintSpeed = _standingSpeed.y;
                             _rotationSharpness = _standingRotationSharpness;
@@ -225,6 +243,10 @@ namespace SurvivorsEscape
                     {
                         if (!CharacterOverlap(_crouchingCapsule))
                         {
+                            _newSpeed = 0;
+                            _proning = true;
+                            _animator.SetFloat("Forward", 0);
+
                             _runSpeed = _crouchingSpeed.x;
                             _sprintSpeed = _crouchingSpeed.y;
                             _rotationSharpness = _crouchingRotationSharpness;
@@ -279,6 +301,19 @@ namespace SurvivorsEscape
             _capsuleCollider.center = new Vector3(_capsuleCollider.center.x, capsuleDimensions.z, _capsuleCollider.center.z);
             _capsuleCollider.radius = capsuleDimensions.x;
             _capsuleCollider.height = capsuleDimensions.y;
+        }
+
+        public void OnEvent(string eventName)
+        {
+            switch(eventName)
+            {
+                case "ProneEnd":
+                    _proning = false;
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         public Vector2 GetStandingSpeed() { return _standingSpeed; }
