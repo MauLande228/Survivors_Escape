@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace SurvivorsEscape
 {
-    public enum CharacterStance { STANDING, CROUCHING, PRONING }
+    public enum CharacterStance { STANDING, CROUCHING}
     public class CharacterController : MonoBehaviour
     {
         private InputManager _inputs;
@@ -150,6 +150,7 @@ namespace SurvivorsEscape
             _animator.SetFloat("Strifing", _strafeParameter);
             _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
             _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
+            Debug.Log("Strifing: " + _strafeParameter);
         }
 
         private void LateUpdate()
@@ -160,17 +161,10 @@ namespace SurvivorsEscape
             {
                 case CharacterStance.STANDING:
                     if (_inputs.Crouch.PressedDown()) { RequestStanceChange(CharacterStance.CROUCHING); }
-                    else if (_inputs.Prone.PressedDown()) { RequestStanceChange(CharacterStance.PRONING); }
                     break;
 
                 case CharacterStance.CROUCHING:
                     if (_inputs.Crouch.PressedDown()) { RequestStanceChange(CharacterStance.STANDING); }
-                    else if (_inputs.Prone.PressedDown()) { RequestStanceChange(CharacterStance.PRONING); }
-                    break;
-
-                case CharacterStance.PRONING:
-                    if (_inputs.Crouch.PressedDown()) { RequestStanceChange(CharacterStance.CROUCHING); }
-                    else if (_inputs.Prone.PressedDown()) { RequestStanceChange(CharacterStance.STANDING); }
                     break;
             }
         }
@@ -197,25 +191,6 @@ namespace SurvivorsEscape
                             return true;
                         }
                     }
-                    else if (newStance == CharacterStance.PRONING)
-                    {
-                        if (!CharacterOverlap(_proningCapsule))
-                        {
-                            _newSpeed = 0;
-                            _proning = true;
-                            _animator.SetFloat("Strifing", 0);
-
-                            _runSpeed = _proningSpeed.x;
-                            _sprintSpeed = _proningSpeed.y;
-                            _rotationSharpness = _proningRotationSharpness;
-                            _stance = newStance;
-
-                            _animator.CrossFadeInFixedTime(_standToProne, 0.5f);
-                            SetCapsuleDimensions(_proningCapsule);
-
-                            return true;
-                        }
-                    }
                     break;
 
                 case CharacterStance.CROUCHING:
@@ -234,7 +209,7 @@ namespace SurvivorsEscape
                             return true;
                         }
                     }
-                    else if (newStance == CharacterStance.PRONING)
+                    /*else if (newStance == CharacterStance.PRONING)
                     {
                         if (!CharacterOverlap(_proningCapsule))
                         {
@@ -252,48 +227,7 @@ namespace SurvivorsEscape
 
                             return true;
                         }
-                    }
-                    break;
-
-                case CharacterStance.PRONING:
-                    if (newStance == CharacterStance.STANDING)
-                    {
-                        if (!CharacterOverlap(_standingCapsule))
-                        {
-                            _newSpeed = 0;
-                            _proning = true;
-                            _animator.SetFloat("Strifing", 0);
-
-                            _runSpeed = _standingSpeed.x;
-                            _sprintSpeed = _standingSpeed.y;
-                            _rotationSharpness = _standingRotationSharpness;
-                            _stance = newStance;
-
-                            _animator.CrossFadeInFixedTime(_proneToStand, 0.5f);
-                            SetCapsuleDimensions(_standingCapsule);
-
-                            return true;
-                        }
-                    }
-                    else if (newStance == CharacterStance.CROUCHING)
-                    {
-                        if (!CharacterOverlap(_crouchingCapsule))
-                        {
-                            _newSpeed = 0;
-                            _proning = true;
-                            _animator.SetFloat("Strifing", 0);
-
-                            _runSpeed = _crouchingSpeed.x;
-                            _sprintSpeed = _crouchingSpeed.y;
-                            _rotationSharpness = _crouchingRotationSharpness;
-                            _stance = newStance;
-
-                            _animator.CrossFadeInFixedTime(_proneToCrouch, 0.5f);
-                            SetCapsuleDimensions(_crouchingCapsule);
-
-                            return true;
-                        }
-                    }
+                    }*/
                     break;
             }
 
@@ -343,12 +277,6 @@ namespace SurvivorsEscape
         {
             switch(eventName)
             {
-                case "ProneEnd":
-                    _proning = false;
-                    break;
-
-                default:
-                    break;
             }
         }
 

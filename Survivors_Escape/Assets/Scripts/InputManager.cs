@@ -35,7 +35,6 @@ namespace SurvivorsEscape
         public Input Left;
         public Input Sprint;
         public Input Crouch;
-        public Input Prone;
         public Input Aim;
 
         public int MoveAxisForward
