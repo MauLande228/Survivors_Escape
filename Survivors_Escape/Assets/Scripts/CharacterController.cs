@@ -16,7 +16,7 @@ namespace SurvivorsEscape
         private CharacterStance _stance;
 
         [Header("Speed [Normal Sprint]")]
-        [SerializeField] private Vector2 _standingSpeed = new Vector2(0, 0);
+        [SerializeField] private Vector3 _standingSpeed = new Vector3(6, 8, 2);
         [SerializeField] private Vector2 _crouchingSpeed = new Vector2(0, 0);
         [SerializeField] private Vector2 _proningSpeed = new Vector2(0, 0);
 
@@ -40,11 +40,17 @@ namespace SurvivorsEscape
         private const string _proneToCrouch = "Base Layer.Prone to Crouch";
         #endregion
 
+        private bool _strafing;
+        private bool _sprinting;
+        private float _strafeParameter;
+        private Vector3 _strafeParameterXZ;
+
         private LayerMask _layerMask;
         private Collider[] _obstructions = new Collider[8];
 
         private float _runSpeed;
         private float _sprintSpeed;
+        private float _walkSpeed;
         private float _rotationSharpness;
 
         private float _targetSpeed;
@@ -65,6 +71,7 @@ namespace SurvivorsEscape
 
             _runSpeed = _standingSpeed.x;
             _sprintSpeed = _standingSpeed.y;
+            _walkSpeed = _standingSpeed.z;
             _rotationSharpness = _standingRotationSharpness;
 
             _stance = CharacterStance.STANDING;
@@ -87,33 +94,62 @@ namespace SurvivorsEscape
         {
             if (_proning) return;
 
-            Vector3 moveInputVector = new Vector3(_inputs.MoveAxisRight, 0, _inputs.MoveAxisForward).normalized;
+            Vector3 moveInputVector = new Vector3(_inputs.MoveAxisRight, 0, _inputs.MoveAxisForward);
             Vector3 cameraPlanarDirection = _cameraController._cameraPlanarDirection;
             Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection);
-            moveInputVector = cameraPlanarRotation * moveInputVector;
 
-            if (_inputs.Sprint.Pressed())
+            Vector3 moveInputVectorOrientation = cameraPlanarRotation * moveInputVector.normalized;
+
+            if(_strafing)
             {
-                _targetSpeed = moveInputVector != Vector3.zero ? _sprintSpeed : 0;
+                _sprinting = _inputs.Sprint.PressedDown() && (moveInputVector != Vector3.zero);
+                _strafing = _inputs.Aim.Pressed() && !_sprinting;
             }
             else
             {
-                _targetSpeed = moveInputVector != Vector3.zero ? _runSpeed : 0;
+                _sprinting = _inputs.Sprint.Pressed() && (moveInputVector != Vector3.zero);
+                _strafing = _inputs.Aim.PressedDown();
             }
+
+            if (_sprinting)
+                _targetSpeed = moveInputVector != Vector3.zero ? _sprintSpeed : 0;
+            else if (_strafing)
+                _targetSpeed = moveInputVector != Vector3.zero ? _walkSpeed : 0; 
+            else
+                _targetSpeed = moveInputVector != Vector3.zero ? _runSpeed : 0;
 
             _newSpeed = Mathf.Lerp(_newSpeed, _targetSpeed, Time.deltaTime * _moveSharpness);
 
-            _newVelocity = moveInputVector * _targetSpeed;
+            _newVelocity = moveInputVectorOrientation * _targetSpeed;
             transform.Translate(_newVelocity * Time.deltaTime, Space.World);
 
-            if (_targetSpeed != 0)
+            if(_strafing)
             {
-                _targetRotation = Quaternion.LookRotation(moveInputVector);
+                _targetRotation = Quaternion.LookRotation(cameraPlanarDirection);
+                _newRotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * _rotationSharpness);
+                transform.rotation = _newRotation;
+            }
+            else if (_targetSpeed != 0)
+            {
+                _targetRotation = Quaternion.LookRotation(moveInputVectorOrientation);
                 _newRotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * _rotationSharpness);
                 transform.rotation = _newRotation;
             }
 
-            _animator.SetFloat("Forward", _newSpeed);
+            if (_strafing)
+            {
+                _strafeParameter = Mathf.Clamp01(_strafeParameter + Time.deltaTime * 4);
+                _strafeParameterXZ = Vector3.Lerp(_strafeParameterXZ, moveInputVector * _newSpeed, _moveSharpness * Time.deltaTime);
+            }
+            else
+            {
+                _strafeParameter = Mathf.Clamp01(_strafeParameter - Time.deltaTime * 4);
+                _strafeParameterXZ = Vector3.Lerp(_strafeParameterXZ, Vector3.forward * _newSpeed, _moveSharpness * Time.deltaTime);
+            }
+
+            _animator.SetFloat("Strifing", _strafeParameter);
+            _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
+            _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
         }
 
         private void LateUpdate()
@@ -167,7 +203,7 @@ namespace SurvivorsEscape
                         {
                             _newSpeed = 0;
                             _proning = true;
-                            _animator.SetFloat("Forward", 0);
+                            _animator.SetFloat("Strifing", 0);
 
                             _runSpeed = _proningSpeed.x;
                             _sprintSpeed = _proningSpeed.y;
@@ -204,7 +240,7 @@ namespace SurvivorsEscape
                         {
                             _newSpeed = 0;
                             _proning = true;
-                            _animator.SetFloat("Forward", 0);
+                            _animator.SetFloat("Strifing", 0);
 
                             _runSpeed = _proningSpeed.x;
                             _sprintSpeed = _proningSpeed.y;
@@ -226,7 +262,7 @@ namespace SurvivorsEscape
                         {
                             _newSpeed = 0;
                             _proning = true;
-                            _animator.SetFloat("Forward", 0);
+                            _animator.SetFloat("Strifing", 0);
 
                             _runSpeed = _standingSpeed.x;
                             _sprintSpeed = _standingSpeed.y;
@@ -245,7 +281,7 @@ namespace SurvivorsEscape
                         {
                             _newSpeed = 0;
                             _proning = true;
-                            _animator.SetFloat("Forward", 0);
+                            _animator.SetFloat("Strifing", 0);
 
                             _runSpeed = _crouchingSpeed.x;
                             _sprintSpeed = _crouchingSpeed.y;

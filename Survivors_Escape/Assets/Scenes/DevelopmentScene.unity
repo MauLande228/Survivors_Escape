@@ -1013,6 +1013,9 @@ MonoBehaviour:
   Prone:
     _primary: 120
     _alternate: 0
+  Aim:
+    _primary: 304
+    _alternate: 0
 --- !u!136 &636976548
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1048,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086eb7df93463ca439b86144f5b93e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _standingSpeed: {x: 6, y: 8}
+  _standingSpeed: {x: 6, y: 8, z: 2}
   _crouchingSpeed: {x: 2, y: 3}
   _proningSpeed: {x: 0.5, y: 1}
   _standingCapsule: {x: 0.25, y: 1.8, z: 0.9}
