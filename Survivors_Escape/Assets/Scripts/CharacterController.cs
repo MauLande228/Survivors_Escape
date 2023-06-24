@@ -33,11 +33,7 @@ namespace SurvivorsEscape
 
         #region ANIMATOR_STATE_NAMES
         private const string _standToCrouch = "Base Layer.Base Crouching";
-        private const string _standToProne = "Base Layer.Stand to Prone";
         private const string _crouchToStand = "Base Layer.Base Standing";
-        private const string _crouchToProne = "Base Layer.Crouch to Prone";
-        private const string _proneToStand = "Base Layer.Prone to Stand";
-        private const string _proneToCrouch = "Base Layer.Prone to Crouch";
         #endregion
 
         private bool _strafing;
@@ -209,25 +205,6 @@ namespace SurvivorsEscape
                             return true;
                         }
                     }
-                    /*else if (newStance == CharacterStance.PRONING)
-                    {
-                        if (!CharacterOverlap(_proningCapsule))
-                        {
-                            _newSpeed = 0;
-                            _proning = true;
-                            _animator.SetFloat("Strifing", 0);
-
-                            _runSpeed = _proningSpeed.x;
-                            _sprintSpeed = _proningSpeed.y;
-                            _rotationSharpness = _proningRotationSharpness;
-                            _stance = newStance;
-
-                            _animator.CrossFadeInFixedTime(_crouchToProne, 0.5f);
-                            SetCapsuleDimensions(_proningCapsule);
-
-                            return true;
-                        }
-                    }*/
                     break;
             }
 

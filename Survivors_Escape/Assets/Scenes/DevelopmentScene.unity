@@ -1010,11 +1010,8 @@ MonoBehaviour:
   Crouch:
     _primary: 122
     _alternate: 0
-  Prone:
-    _primary: 120
-    _alternate: 0
   Aim:
-    _primary: 304
+    _primary: 324
     _alternate: 0
 --- !u!136 &636976548
 CapsuleCollider:
