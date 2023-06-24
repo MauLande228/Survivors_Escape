@@ -933,6 +933,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 636976552}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9db108023e5657840992709d37c66bfc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 636976553}
   m_SourcePrefab: {fileID: 100100000, guid: 9db108023e5657840992709d37c66bfc, type: 3}
 --- !u!1 &636976543 stripped
 GameObject:
@@ -1006,8 +1010,8 @@ MonoBehaviour:
   Crouch:
     _primary: 122
     _alternate: 0
-  Prone:
-    _primary: 120
+  Aim:
+    _primary: 324
     _alternate: 0
 --- !u!136 &636976548
 CapsuleCollider:
@@ -1044,14 +1048,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086eb7df93463ca439b86144f5b93e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _standingSpeed: {x: 6, y: 8}
+  _standingSpeed: {x: 6, y: 8, z: 2}
   _crouchingSpeed: {x: 2, y: 3}
   _proningSpeed: {x: 0.5, y: 1}
   _standingCapsule: {x: 0.25, y: 1.8, z: 0.9}
   _crouchingCapsule: {x: 0.35, y: 1.35, z: 0.675}
   _proningCapsule: {x: 0.4, y: 0.4, z: 0.4}
   _moveSharpness: 10
-  _standingRotationSharpness: 7.5
+  _standingRotationSharpness: 7
   _crouchingRotationSharpness: 5
   _proningRotationSharpness: 10
 --- !u!54 &636976552
@@ -1081,6 +1085,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &636976553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636976543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d03004707150a3a41b0c671024b62440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debug: 1
+  _event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 636976550}
+        m_TargetAssemblyTypeName: SurvivorsEscape.CharacterController, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &701612838
 PrefabInstance:
   m_ObjectHideFlags: 0
