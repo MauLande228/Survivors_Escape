@@ -99,7 +99,7 @@ namespace SurvivorsEscape
             if(_strafing)
             {
                 _sprinting = _inputs.Sprint.PressedDown() && (moveInputVector != Vector3.zero);
-                _strafing = _inputs.Aim.Pressed() && !_sprinting;
+                _strafing = !_inputs.Aim.PressedDown() && !_sprinting;
             }
             else
             {
@@ -146,7 +146,6 @@ namespace SurvivorsEscape
             _animator.SetFloat("Strifing", _strafeParameter);
             _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
             _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
-            Debug.Log("Strifing: " + _strafeParameter);
         }
 
         private void LateUpdate()
