@@ -7,11 +7,12 @@ using UnityEngine.Rendering;
 namespace SurvivorsEscape
 {
     public enum CharacterStance { STANDING, CROUCHING}
-    public class CharacterController : MonoBehaviour
+    public class CharacterController : MonoBehaviour, IHitResponder
     {
         private InputManager _inputs;
         private CameraController _cameraController;
         private Animator _animator;
+        private EventHandler _eventHandler;
         private CapsuleCollider _capsuleCollider;
         private CharacterStance _stance;
 
@@ -25,6 +26,10 @@ namespace SurvivorsEscape
         [SerializeField] private Vector3 _crouchingCapsule = Vector3.zero;
         [SerializeField] private Vector3 _proningCapsule = Vector3.zero;
 
+        [Header("Attacking")]
+        [SerializeField] private int _damage = 10;
+        [SerializeField] private SEHitBox _hitBox;
+
         [Header("Sharpness")]
         [SerializeField] private float _moveSharpness = 10f;
         [SerializeField] private float _standingRotationSharpness = 10f;
@@ -34,7 +39,14 @@ namespace SurvivorsEscape
         #region ANIMATOR_STATE_NAMES
         private const string _standToCrouch = "Base Layer.Base Crouching";
         private const string _crouchToStand = "Base Layer.Base Standing";
+        private const string _meleeAtack    = "Base Layer.Melee attack horizontal";
         #endregion
+
+        private bool _inAnimation;
+        private Vector3 _animatorVelocity;
+        private Quaternion _animatorDeltaRotation;
+        private bool _hitting;
+        private List<GameObject> _objectsHit = new List<GameObject>();
 
         private bool _strafing;
         private bool _sprinting;
@@ -63,12 +75,14 @@ namespace SurvivorsEscape
             _animator = GetComponent<Animator>();
             _cameraController = GetComponent<CameraController>();
             _inputs = GetComponent<InputManager>();
+            _eventHandler = GetComponent<EventHandler>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
 
             _runSpeed = _standingSpeed.x;
             _sprintSpeed = _standingSpeed.y;
             _walkSpeed = _standingSpeed.z;
             _rotationSharpness = _standingRotationSharpness;
+            _hitBox.HitResponder = this;
 
             _stance = CharacterStance.STANDING;
             SetCapsuleDimensions(_standingCapsule);
@@ -83,7 +97,8 @@ namespace SurvivorsEscape
             }
             _layerMask = mask;
 
-            _animator.applyRootMotion = false;
+            //_animator.applyRootMotion = false;
+            _eventHandler.Event.AddListener(OnEvent);
         }
 
         private void Update()
@@ -116,8 +131,16 @@ namespace SurvivorsEscape
 
             _newSpeed = Mathf.Lerp(_newSpeed, _targetSpeed, Time.deltaTime * _moveSharpness);
 
-            _newVelocity = moveInputVectorOrientation * _targetSpeed;
+            if (_inAnimation)
+                _newVelocity = _animatorVelocity;
+            else
+                _newVelocity = moveInputVectorOrientation * _targetSpeed;
             transform.Translate(_newVelocity * Time.deltaTime, Space.World);
+
+            if (_inAnimation)
+            {
+                transform.rotation *= _animatorDeltaRotation;
+            }
 
             if(_strafing)
             {
@@ -146,6 +169,29 @@ namespace SurvivorsEscape
             _animator.SetFloat("Strifing", _strafeParameter);
             _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
             _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
+
+            if(!_inAnimation)
+            {
+                if(_inputs.Attack.PressedDown())
+                {
+                    _inAnimation = true;
+                    _animator.CrossFadeInFixedTime(_meleeAtack, 0.1f, 0, 0);
+                }
+            }
+
+            if(_hitting)
+            {
+                _hitBox.CheckHit();
+            }
+        }
+
+        private void OnAnimatorMove()
+        {
+            if(_inAnimation)
+            {
+                _animatorVelocity = _animator.velocity;
+                _animatorDeltaRotation = _animator.deltaRotation;
+            }
         }
 
         private void LateUpdate()
@@ -253,7 +299,37 @@ namespace SurvivorsEscape
         {
             switch(eventName)
             {
+                case "HitStart":
+                    _objectsHit.Clear();
+                    _hitting = true;
+                    break;
+
+                case "HitEnd":
+                    _hitting = false;
+                    break;
+
+                case "AnimationEnd":
+                    _inAnimation = false;
+                    break;
             }
+        }
+
+        int IHitResponder.Damage { get => _damage; }
+
+        bool IHitResponder.CheckHit(HitInteraction data)
+        {
+            if (data.HurtBox.Owner == gameObject)
+                return false;
+
+            else if(_objectsHit.Contains(data.HurtBox.Owner))
+                return false;
+            else
+                return true;
+        }
+
+        void IHitResponder.Response(HitInteraction data)
+        {
+            _objectsHit.Add(data.HurtBox.Owner);
         }
 
         public Vector2 GetStandingSpeed() { return _standingSpeed; }

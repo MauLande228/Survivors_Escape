@@ -1422,6 +1422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _active: 1
   _owner: {fileID: 510399089}
+  _hurtBoxType: 2
 --- !u!136 &753439208
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2290,6 +2291,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
+  _hurtBoxMask: 1
 --- !u!114 &1306053899
 MonoBehaviour:
   m_ObjectHideFlags: 0

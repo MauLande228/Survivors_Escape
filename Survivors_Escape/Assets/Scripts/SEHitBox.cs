@@ -6,6 +6,7 @@ public class SEHitBox : MonoBehaviour, IHitDetector
 {
     [SerializeField] private BoxCollider _collider;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private HurtBoxMask _hurtBoxMask = HurtBoxMask.ENEMY;
 
     private float _thickness = 0.025f;
     private IHitResponder _hitResponder;
@@ -36,19 +37,22 @@ public class SEHitBox : MonoBehaviour, IHitDetector
             {
                 if(hurtBox.Active)
                 {
-                    hitData = new HitInteraction
+                    if(_hurtBoxMask.HasFlag((HurtBoxMask)hurtBox.Type))
                     {
-                        Damage = _hitResponder == null ? 0 : _hitResponder.Damage,
-                        HitPoint = hit.point == Vector3.zero ? center : hit.point,
-                        HitNormal = hit.normal,
-                        HurtBox = hurtBox,
-                        HitDetector = this
-                    };
+                        hitData = new HitInteraction
+                        {
+                            Damage = _hitResponder == null ? 0 : _hitResponder.Damage,
+                            HitPoint = hit.point == Vector3.zero ? center : hit.point,
+                            HitNormal = hit.normal,
+                            HurtBox = hurtBox,
+                            HitDetector = this
+                        };
 
-                    if(hitData.Validate())
-                    {
-                        hitData.HitDetector.HitResponder?.Response(hitData);
-                        hitData.HurtBox.HurtResponder?.Response(hitData);
+                        if (hitData.Validate())
+                        {
+                            hitData.HitDetector.HitResponder?.Response(hitData);
+                            hitData.HurtBox.HurtResponder?.Response(hitData);
+                        }
                     }
                 }
             }

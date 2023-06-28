@@ -29,6 +29,21 @@ public class HitInteraction
     }
 }
 
+public enum HurtBoxType
+{
+    PLAYER = 1 << 0,
+    ENEMY  = 1 << 1,
+    ALLY   = 1 << 2
+}
+
+[System.Flags]
+public enum HurtBoxMask
+{
+    NONE   = 0,      //0000
+    PLAYER = 1 << 0, //0001
+    ENEMY  = 1 << 1, //0010
+    ALLY   = 1 << 2  //0100
+}
 
 public interface IHitResponder
 {
@@ -60,6 +75,8 @@ public interface IHurtBox
     public GameObject Owner { get; }
 
     public Transform Transform { get; }
+
+    public HurtBoxType Type { get; }
 
     public IHurtResponder HurtResponder { get; set; }
 
