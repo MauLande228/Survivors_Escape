@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Unity.Netcode;
 
 namespace SurvivorsEscape
 {
     public enum CharacterStance { STANDING, CROUCHING}
-    public class CharacterController : MonoBehaviour, IHitResponder
+    public class CharacterController : NetworkBehaviour, IHitResponder
     {
+        //public static CharacterController Instance { get; private set; }
+
         private InputManager _inputs;
         private CameraController _cameraController;
         private Animator _animator;
@@ -19,12 +22,10 @@ namespace SurvivorsEscape
         [Header("Speed [Normal Sprint]")]
         [SerializeField] private Vector3 _standingSpeed = new Vector3(6, 8, 2);
         [SerializeField] private Vector2 _crouchingSpeed = new Vector2(0, 0);
-        [SerializeField] private Vector2 _proningSpeed = new Vector2(0, 0);
 
         [Header("Capsule [Radius Height YOffset]")]
         [SerializeField] private Vector3 _standingCapsule = Vector3.zero;
         [SerializeField] private Vector3 _crouchingCapsule = Vector3.zero;
-        [SerializeField] private Vector3 _proningCapsule = Vector3.zero;
 
         [Header("Attacking")]
         [SerializeField] private int _damage = 10;
@@ -34,7 +35,6 @@ namespace SurvivorsEscape
         [SerializeField] private float _moveSharpness = 10f;
         [SerializeField] private float _standingRotationSharpness = 10f;
         [SerializeField] private float _crouchingRotationSharpness = 10f;
-        [SerializeField] private float _proningRotationSharpness = 10f;
 
         #region ANIMATOR_STATE_NAMES
         private const string _standToCrouch = "Base Layer.Base Crouching";
@@ -70,6 +70,14 @@ namespace SurvivorsEscape
 
         private bool _proning;
 
+        private void Awake()
+        {
+            //if (Instance != null)
+                //Debug.Log("There is more than one player in the scene!");
+
+            //Instance = this;
+        }
+
         private void Start()
         {
             _animator = GetComponent<Animator>();
@@ -97,7 +105,6 @@ namespace SurvivorsEscape
             }
             _layerMask = mask;
 
-            //_animator.applyRootMotion = false;
             _eventHandler.Event.AddListener(OnEvent);
         }
 
