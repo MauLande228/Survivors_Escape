@@ -31,6 +31,7 @@ public class PlayerStats : MonoBehaviour
     public StatsBar hungerBar;
 
     private float possibledmg;
+    public UI_opacity_time uicolor;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,8 @@ public class PlayerStats : MonoBehaviour
         damage = 1;
         speed = 1;
         luck = -1;
+
+        uicolor = GetComponentInChildren<UI_opacity_time>();
     }
 
     // Update is called once per frame
@@ -66,6 +69,8 @@ public class PlayerStats : MonoBehaviour
         // Prevent out of limits
         if (health <= 0) { health = 0; }
         if (health > maxhealth) { health = maxhealth; }
+
+        if (hunger < 25.5 && hunger > 25) { uicolor.Danger(); }
 
         if (hunger <= 0) { hunger = 0; }
         if (hunger > maxhunger) { hunger = maxhunger; }
