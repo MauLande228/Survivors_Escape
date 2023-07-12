@@ -111,6 +111,7 @@ namespace SurvivorsEscape
         private void Update()
         {
             if (_proning) return;
+            if(!IsOwner) return;
 
             Vector3 moveInputVector = new Vector3(_inputs.MoveAxisRight, 0, _inputs.MoveAxisForward);
             Vector3 cameraPlanarDirection = _cameraController._cameraPlanarDirection;
