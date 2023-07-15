@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
 namespace SurvivorsEscape
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController : NetworkBehaviour
     {
         [Header("Framing")]
         [SerializeField] private Camera _camera = null;
@@ -52,6 +53,12 @@ namespace SurvivorsEscape
 
         private void Start()
         {
+            if (!IsOwner)
+            {
+                _camera.enabled = false;
+                return;
+            }
+
             _ignoreColliders.AddRange(GetComponentsInChildren<Collider>());
             _planarDirection = _followTransform.forward;
             _targetDistance = _defaultDistance;
@@ -65,6 +72,12 @@ namespace SurvivorsEscape
 
         private void Update()
         {
+            if (!IsOwner)
+            {
+                //_camera.enabled = false;
+                return;
+            }
+
             if (Cursor.lockState != CursorLockMode.Locked)
                 return;
 

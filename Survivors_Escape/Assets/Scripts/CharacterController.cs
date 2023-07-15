@@ -81,7 +81,7 @@ namespace SurvivorsEscape
         private void Start()
         {
             _animator = GetComponent<Animator>();
-            _cameraController = GetComponent<CameraController>();
+            _cameraController = IsOwner ? GetComponent<CameraController>() : null;
             _inputs = GetComponent<InputManager>();
             _eventHandler = GetComponent<EventHandler>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
@@ -111,7 +111,7 @@ namespace SurvivorsEscape
         private void Update()
         {
             if (_proning) return;
-            if(!IsOwner) return;
+            if (!IsOwner) return;
 
             Vector3 moveInputVector = new Vector3(_inputs.MoveAxisRight, 0, _inputs.MoveAxisForward);
             Vector3 cameraPlanarDirection = _cameraController._cameraPlanarDirection;
@@ -205,6 +205,7 @@ namespace SurvivorsEscape
         private void LateUpdate()
         {
             if (_proning) return;
+            if (!IsOwner) return;
 
             switch (_stance)
             {
