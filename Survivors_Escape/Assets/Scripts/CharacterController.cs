@@ -10,8 +10,6 @@ namespace SurvivorsEscape
     public enum CharacterStance { STANDING, CROUCHING}
     public class CharacterController : NetworkBehaviour, IHitResponder
     {
-        //public static CharacterController Instance { get; private set; }
-
         private InputManager _inputs;
         private CameraController _cameraController;
         private Animator _animator;
@@ -69,14 +67,6 @@ namespace SurvivorsEscape
         private Quaternion _newRotation;
 
         private bool _proning;
-
-        private void Awake()
-        {
-            //if (Instance != null)
-                //Debug.Log("There is more than one player in the scene!");
-
-            //Instance = this;
-        }
 
         private void Start()
         {
