@@ -185,6 +185,8 @@ namespace SurvivorsEscape
 
         private void OnAnimatorMove()
         {
+            if (!IsOwner) return;
+
             if(_inAnimation)
             {
                 _animatorVelocity = _animator.velocity;
@@ -296,6 +298,8 @@ namespace SurvivorsEscape
 
         public void OnEvent(string eventName)
         {
+            if (!IsOwner) return;
+
             switch(eventName)
             {
                 case "HitStart":
@@ -339,5 +343,7 @@ namespace SurvivorsEscape
         public CameraController GetCameraController() { return _cameraController; }
         public InputManager GetInputManager() { return _inputs; }
         public Transform GetPlayerTransform() { return transform; }
+
+        public bool IsPlayerOwner() { return IsOwner; }
     }
 }

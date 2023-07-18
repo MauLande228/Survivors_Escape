@@ -22,7 +22,19 @@ public class INV_Collide : MonoBehaviour
 
             if (pickup != null)
             {
-                other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
+                var agents = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var a in agents)
+                {
+                    SurvivorsEscape.CharacterController cc = a.GetComponent<SurvivorsEscape.CharacterController>();
+                    if (cc != null)
+                    {
+                        if(cc.IsPlayerOwner())
+                        {
+                            Debug.Log("PICK UP");
+                            other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
+                        }
+                    }
+                }
             }
         }
     }
