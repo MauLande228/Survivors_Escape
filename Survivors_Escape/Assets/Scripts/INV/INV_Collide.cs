@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class INV_Collide : MonoBehaviour
+public class INV_Collide : NetworkBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -20,9 +21,16 @@ public class INV_Collide : MonoBehaviour
             INV_PickUp pickup = this.GetComponent<INV_PickUp>();
             //Debug.Log(pickup.stackSize);
 
-            if (pickup != null)
+            GameObject go = other.gameObject;
+            SurvivorsEscape.CharacterController cc = go.GetComponent<SurvivorsEscape.CharacterController>();
+
+            if (pickup != null && cc != null)
             {
-                var agents = GameObject.FindGameObjectsWithTag("Player");
+                if (!cc.IsOwner) return;
+                Debug.Log("PICK UP");
+                other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
+
+                /*var agents = GameObject.FindGameObjectsWithTag("Player");
                 foreach (var a in agents)
                 {
                     SurvivorsEscape.CharacterController cc = a.GetComponent<SurvivorsEscape.CharacterController>();
@@ -34,7 +42,7 @@ public class INV_Collide : MonoBehaviour
                             other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
                         }
                     }
-                }
+                }*/
             }
         }
     }

@@ -422,6 +422,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: item_diamond
       objectReference: {fileID: 0}
+    - target: {fileID: 1168904106825661068, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1783884827
+      objectReference: {fileID: 0}
     - target: {fileID: 3713592105449695855, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
         type: 3}
       propertyPath: m_RootOrder
@@ -599,6 +604,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8199903208565624578, guid: ddec4dccd6c556142b4e9c5ab2cdef2a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1923429640
+      objectReference: {fileID: 0}
     - target: {fileID: 7535828139355627286, guid: ddec4dccd6c556142b4e9c5ab2cdef2a,
         type: 3}
       propertyPath: m_Name
@@ -1115,6 +1125,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2536642396361267607, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3585452062
+      objectReference: {fileID: 0}
     - target: {fileID: 850177613790877775, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
         type: 3}
       propertyPath: m_RootOrder
@@ -1556,6 +1571,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 106b08836294e50428fc7c66bbbc1899, type: 2}
   stackSize: 20
+--- !u!114 &608325030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608325028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 857528472
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &701612838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2169,6 +2200,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2536642396361267607, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1000780929
+      objectReference: {fileID: 0}
     - target: {fileID: 850177613790877775, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
         type: 3}
       propertyPath: m_RootOrder
@@ -2878,6 +2914,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: item_diamond (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1168904106825661068, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2307193433
+      objectReference: {fileID: 0}
     - target: {fileID: 3713592105449695855, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
         type: 3}
       propertyPath: m_RootOrder
@@ -2941,6 +2982,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 608325029}
+    - targetCorrespondingSourceObject: {fileID: 741248350561087677, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 608325030}
   m_SourcePrefab: {fileID: 100100000, guid: c0c49a46a2d36624fa0efd0e2de05ad8, type: 3}
 --- !u!1 &1334816723 stripped
 GameObject:
@@ -2970,6 +3015,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2536642396361267607, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2920386649
+      objectReference: {fileID: 0}
     - target: {fileID: 850177613790877775, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
         type: 3}
       propertyPath: m_RootOrder
@@ -4460,6 +4510,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8199903208565624578, guid: ddec4dccd6c556142b4e9c5ab2cdef2a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1513648617
+      objectReference: {fileID: 0}
     - target: {fileID: 7535828139355627286, guid: ddec4dccd6c556142b4e9c5ab2cdef2a,
         type: 3}
       propertyPath: m_Name
@@ -4593,7 +4648,25 @@ MonoBehaviour:
     NetworkTransport: {fileID: 2048418984}
     PlayerPrefab: {fileID: 2211191862671032799, guid: 32ee2d3561062ea4aa98d95e0c7a0399,
       type: 3}
-    NetworkPrefabs: []
+    NetworkPrefabs:
+    - Override: 0
+      Prefab: {fileID: 7535828139355627286, guid: ddec4dccd6c556142b4e9c5ab2cdef2a,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 741248350561087677, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 7830043951758032173, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
