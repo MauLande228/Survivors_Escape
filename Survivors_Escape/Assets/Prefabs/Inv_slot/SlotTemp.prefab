@@ -306,3 +306,9 @@ MonoBehaviour:
   stackSize: 0
   icon: {fileID: 8502160013673195680}
   stackText: {fileID: 1735528830046160422}
+  selectC:
+    serializedVersion: 2
+    rgba: 4278255615
+  unselectC:
+    serializedVersion: 2
+    rgba: 4294967295

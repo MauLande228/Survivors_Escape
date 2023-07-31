@@ -28,8 +28,8 @@ public class INV_Collide : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    //void Update()
+    //{
         
-    }
+    //}
 }
