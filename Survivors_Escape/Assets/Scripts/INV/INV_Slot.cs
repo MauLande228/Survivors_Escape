@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour
 {
@@ -13,8 +12,8 @@ public class Slot : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI stackText;
 
-    public Color32 selectC = new Color32(0, 255, 0, 255);
-    public Color32 unselectC = new Color32(255, 255, 225, 255);
+    public Color32 selectC = new(255, 255, 0, 255);
+    public Color32 unselectC = new(255, 255, 255, 255);
 
     //public GameObject mainSlot;
 
@@ -25,10 +24,6 @@ public class Slot : MonoBehaviour
     void Start()
     {
         UpdateSlot();
-    }
-    public void Awake()
-    {
-        UnselectS();
     }
 
     public void SelectS()
@@ -42,6 +37,10 @@ public class Slot : MonoBehaviour
 
     public void UpdateSlot()
     {
+        if (stackSize <= 0) {
+            data = null;
+        }
+
         if (data == null)
         {
             isEmpty = true;
