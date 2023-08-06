@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using Unity.Netcode;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, INetworkSerializable
 {
     public Inv_itemSO data;
     public int stackSize;
     [Space]
     public Image icon;
     public TextMeshProUGUI stackText;
+
+    private Transform _transform;
+    private Vector3 _position;
 
     public Color32 selectC = new(255, 255, 0, 255);
     public Color32 unselectC = new(255, 255, 255, 255);
@@ -104,5 +109,23 @@ public class Slot : MonoBehaviour
         stackSize = 0;
 
         UpdateSlot();
+    }
+
+    public void SetDropPos(Transform t)
+    {
+        _transform = t;
+    }
+
+    public Transform GetCurrentDropPos()
+    {
+        return _transform;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        var slot = this;
+        serializer.SerializeValue(ref slot);
+        //serializer.SerializeValue(ref data.itName);
+        //.SerializeValue(ref _position);
     }
 }

@@ -32,9 +32,13 @@ public class INV_ScreenManager : MonoBehaviour
     private Slot[] invSlots;
     [SerializeField] private Slot[] allSlots;
 
+    private bool _bCanBeDestroyed = false;
+
     // Start is called before the first frame update
     void Start()
     {
+
+
         GenSlots();
         ChangeSelected(1);
         buttonsImgA.enabled = false;
@@ -260,7 +264,7 @@ public class INV_ScreenManager : MonoBehaviour
         UpdateDesc(s.data.itName, s.data.itType.ToString(), s.data.itDesc);
     }
 
-    public void AddItem(INV_PickUp pickUp)
+    public bool AddItem(INV_PickUp pickUp)
     {
         bool isIn = false;
 
@@ -309,17 +313,18 @@ public class INV_ScreenManager : MonoBehaviour
                         }
                     }
 
-                    Destroy(pickUp.gameObject);
+                    stackableSlot.UpdateSlot();
+                    //Destroy(pickUp.gameObject);
+                    return true;
                 }
                 // IF IT CAN FIT THE PICKED UP AMOUNT
                 else
                 {
                     stackableSlot.AddStackAmount(pickUp.stackSize);
-
-                    Destroy(pickUp.gameObject);
+                    stackableSlot.UpdateSlot();
+                    //Destroy(pickUp.gameObject);
+                    return true;
                 }
-
-                stackableSlot.UpdateSlot();
             }
             else
             {
@@ -371,7 +376,7 @@ public class INV_ScreenManager : MonoBehaviour
                 }
             }
 
-            // IF WE HAVE AN EMPTY SLOT THAN ADD THE ITEM
+            // IF WE HAVE AN EMPTY SLOT THEN ADD THE ITEM
             if (emptySlot != null)
             {
                 emptySlot.AddItemToSlot(pickUp.data, pickUp.stackSize);
@@ -388,23 +393,37 @@ public class INV_ScreenManager : MonoBehaviour
             }
 
         }
+
+        return false;
     }
 
     public void DropItem(Slot slot)
     {
-        Debug.Log(slot.data.itType.ToString());
-        GameObject itDropModel = slot.data.itPrefab;
+        slot.SetDropPos(dropPos);
+        if(slot.itisEmpty)
+        {
+            Debug.Log("Slot is empty");
+        }
+        if(slot.data == null)
+        {
+            Debug.Log("Slot is null");
+        }
 
-        UpdateNoDesc();
-        SetToNoButtons();
+        Debug.Log(slot.stackSize.ToString());
+
+        //Spawner.Instace.DropItem(slot);
+        Spawner.Instace.SpawnObjectServerRpc(slot);
+
+        /*GameObject itDropModel = slot.data.itPrefab;
         INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
         pickup.transform.position = dropPos.position;
         pickup.transform.SetParent(null);
 
         pickup.data = slot.data;
         pickup.stackSize = slot.stackSize;
-        slot.Clean();
+
+        slot.Clean();*/
     }
 
-
+    public bool CanBeDestroyed() { return _bCanBeDestroyed; }
 }
