@@ -183,22 +183,28 @@ public class INV_ScreenManager : MonoBehaviour
         allSlots[cs].UpdateSlot();
     }
 
+    void UseSlot(int mp)
+    {
+        allSlots[0].stackSize = allSlots[0].stackSize - mp;
+
+    }
+
     public void UpdateDesc(string n, string t, string d)
     {
         string dc = "";
         switch (t[0])
         {
             case 'M':
-                dc = "#4CCCCC";
+                dc = "#42E4E4";
                 break;
             case 'W':
-                dc = "#C90034";
+                dc = "#F22D60";
                 break;
             case 'T':
                 dc = "#F1C232";
                 break;
             case 'C':
-                dc = "#F0A54E";
+                dc = "#FFAA47";
                 break;
             case 'B':
                 dc = "#842554";

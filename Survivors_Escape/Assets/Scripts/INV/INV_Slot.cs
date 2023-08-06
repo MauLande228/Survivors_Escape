@@ -35,6 +35,21 @@ public class Slot : MonoBehaviour
         gameObject.GetComponent<Image>().color = unselectC;
     }
 
+    public void UpdateUse()
+    {
+        if (stackSize <= 0)
+        {
+            data = null;
+            stackSize = 0;
+            isEmpty = true;
+            icon.gameObject.SetActive(false);
+            stackText.gameObject.SetActive(false);
+        }
+        else
+        {
+            stackText.text = $"{stackSize}/{data.maxStack}";
+        }
+    }
     public void UpdateSlot()
     {
         if (stackSize <= 0) {
@@ -54,6 +69,14 @@ public class Slot : MonoBehaviour
             icon.sprite = data.itIcon;
             stackText.text = $"x{stackSize}";
             
+            if (data.isStackable)
+            {
+                stackText.text = $"x{stackSize}";
+            } else
+            {
+                stackText.text = $"{stackSize}/{data.maxStack}";
+            }
+
             icon.gameObject.SetActive(true);
             stackText.gameObject.SetActive(true);
         }

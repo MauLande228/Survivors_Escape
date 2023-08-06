@@ -23,4 +23,9 @@ public class Inv_itemSO : ScriptableObject
     [Header("Consumables")]
     public float plusHB = 10.0f;
     public float plusHP = 10.0f;
+
+    [Header("WepsANDTools")]
+    public float Wdmg = 0.0f;
+    public float STdmg = 0.0f;
+    public float WTdmg = 0.0f;
 }
