@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour
 {
@@ -13,8 +12,8 @@ public class Slot : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI stackText;
 
-    public Color32 selectC = new Color32(0, 255, 0, 255);
-    public Color32 unselectC = new Color32(255, 255, 225, 255);
+    public Color32 selectC = new(255, 255, 0, 255);
+    public Color32 unselectC = new(255, 255, 255, 255);
 
     //public GameObject mainSlot;
 
@@ -26,10 +25,6 @@ public class Slot : MonoBehaviour
     {
         UpdateSlot();
     }
-    public void Awake()
-    {
-        UnselectS();
-    }
 
     public void SelectS()
     {
@@ -40,8 +35,27 @@ public class Slot : MonoBehaviour
         gameObject.GetComponent<Image>().color = unselectC;
     }
 
+    public void UpdateUse()
+    {
+        if (stackSize <= 0)
+        {
+            data = null;
+            stackSize = 0;
+            isEmpty = true;
+            icon.gameObject.SetActive(false);
+            stackText.gameObject.SetActive(false);
+        }
+        else
+        {
+            stackText.text = $"{stackSize}/{data.maxStack}";
+        }
+    }
     public void UpdateSlot()
     {
+        if (stackSize <= 0) {
+            data = null;
+        }
+
         if (data == null)
         {
             isEmpty = true;
@@ -55,6 +69,14 @@ public class Slot : MonoBehaviour
             icon.sprite = data.itIcon;
             stackText.text = $"x{stackSize}";
             
+            if (data.isStackable)
+            {
+                stackText.text = $"x{stackSize}";
+            } else
+            {
+                stackText.text = $"{stackSize}/{data.maxStack}";
+            }
+
             icon.gameObject.SetActive(true);
             stackText.gameObject.SetActive(true);
         }

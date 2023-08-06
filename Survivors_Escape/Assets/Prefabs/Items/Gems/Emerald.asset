@@ -16,6 +16,12 @@ MonoBehaviour:
   itName: Emerald
   itDesc: Tiny gemstone of low resistance
   itIcon: {fileID: 21300000, guid: 710b598bf68f3ba46a3246405bf2a41b, type: 3}
-  itModel: {fileID: 7830043951758032173, guid: 47a2b32b5198e8f4a98b106e91a66d5a, type: 3}
+  itPrefab: {fileID: 7830043951758032173, guid: 47a2b32b5198e8f4a98b106e91a66d5a,
+    type: 3}
   isStackable: 1
   maxStack: 25
+  plusHB: 0
+  plusHP: 0
+  Wdmg: 0
+  STdmg: 0
+  WTdmg: 0
