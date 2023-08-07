@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.Netcode;
 
-public class Slot : MonoBehaviour, INetworkSerializable
+public class Slot : MonoBehaviour
 {
     public Inv_itemSO data;
     public int stackSize;
@@ -119,13 +119,5 @@ public class Slot : MonoBehaviour, INetworkSerializable
     public Transform GetCurrentDropPos()
     {
         return _transform;
-    }
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        var slot = this;
-        serializer.SerializeValue(ref slot);
-        //serializer.SerializeValue(ref data.itName);
-        //.SerializeValue(ref _position);
     }
 }

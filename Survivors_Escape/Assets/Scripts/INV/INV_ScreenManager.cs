@@ -31,6 +31,7 @@ public class INV_ScreenManager : MonoBehaviour
 
     private Slot[] invSlots;
     [SerializeField] private Slot[] allSlots;
+    [SerializeField] private SpawnableList _spawnableList;
 
     private bool _bCanBeDestroyed = false;
 
@@ -412,7 +413,16 @@ public class INV_ScreenManager : MonoBehaviour
         Debug.Log(slot.stackSize.ToString());
 
         //Spawner.Instace.DropItem(slot);
-        Spawner.Instace.SpawnObjectServerRpc(slot);
+        //slot.data.dropPos = dropPos;
+        int i = Spawner.Instace.GetItemIndex(slot.data);
+        Spawner.Instace._spawnableList._itemsList[i].dropPos = dropPos;
+
+        Vector3 positon = dropPos.position;
+        float x = positon.x;
+        float y = positon.y;
+        float z = positon.z;
+
+        Spawner.Instace.SpawnObjectServerRpc(Spawner.Instace.GetItemIndex(slot.data), slot.stackSize, x, y, z);
 
         /*GameObject itDropModel = slot.data.itPrefab;
         INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
@@ -420,10 +430,15 @@ public class INV_ScreenManager : MonoBehaviour
         pickup.transform.SetParent(null);
 
         pickup.data = slot.data;
-        pickup.stackSize = slot.stackSize;
+        pickup.stackSize = slot.stackSize;*/
 
-        slot.Clean();*/
+        slot.Clean();
     }
 
     public bool CanBeDestroyed() { return _bCanBeDestroyed; }
+
+    public Transform GetCurrentDropPos()
+    {
+        return dropPos;
+    }
 }

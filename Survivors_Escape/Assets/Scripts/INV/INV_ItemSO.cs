@@ -28,4 +28,6 @@ public class Inv_itemSO : ScriptableObject
     public float Wdmg = 0.0f;
     public float STdmg = 0.0f;
     public float WTdmg = 0.0f;
+
+    public Transform dropPos;
 }

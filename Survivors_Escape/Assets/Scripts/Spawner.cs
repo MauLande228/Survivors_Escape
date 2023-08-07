@@ -5,7 +5,11 @@ using Unity.Netcode;
 
 public class Spawner : NetworkBehaviour
 {
+    
     public static Spawner Instace { get; private set; }
+
+    public SpawnableList _spawnableList;
+    private Transform _transform;
 
     private void Awake()
     {
@@ -19,21 +23,26 @@ public class Spawner : NetworkBehaviour
             Debug.Log("Prefab null");
             Debug.Log(slot.stackSize.ToString());
         }
-
-        SpawnObjectServerRpc(slot);
     }
 
     [ServerRpc(RequireOwnership = false)]
-     public void SpawnObjectServerRpc(Slot slot)
+     public void SpawnObjectServerRpc(int itemSOIndex, int stackSize, float x, float y, float z)
      {
-        if (slot == null)
+        var item = GetItemFromIndex(itemSOIndex);
+
+        if (item == null)
         {
             Debug.Log("Prefab null");
-            Debug.Log(slot.stackSize.ToString());
         }
 
-        GameObject itDropModel = slot.data.itPrefab;
-        INV_PickUp pickup = Instantiate(itDropModel, slot.GetCurrentDropPos()).AddComponent<INV_PickUp>();
+        Debug.Log(stackSize);
+        GameObject itDropModel = item.itPrefab;
+
+        transform.position = new Vector3(x, y, z);
+
+        INV_PickUp pickup = Instantiate(itDropModel, transform).AddComponent<INV_PickUp>();
+        pickup.transform.position = transform.position;
+        //pickup.transform.SetParent(null);
 
         NetworkObject pickupNetworkObject = pickup.GetComponent<NetworkObject>();
         if (pickupNetworkObject != null)
@@ -41,11 +50,17 @@ public class Spawner : NetworkBehaviour
             pickupNetworkObject.Spawn(true);
         }
 
-        //Inv_itemSO data;
-
-        pickup.data = slot.data;
-        pickup.stackSize = slot.stackSize;
-
-        slot.Clean();
+        pickup.data = item;
+        pickup.stackSize = stackSize;
      }
+
+     public int GetItemIndex(Inv_itemSO itemSO)
+    {
+        return _spawnableList._itemsList.IndexOf(itemSO);
+    }
+
+    public Inv_itemSO GetItemFromIndex(int i)
+    {
+        return _spawnableList._itemsList[i];
+    }
 }
