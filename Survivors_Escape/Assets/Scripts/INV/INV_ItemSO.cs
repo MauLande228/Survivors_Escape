@@ -13,19 +13,21 @@ public class Inv_itemSO : ScriptableObject
     public itemType itType;
     public string itName = "New";
     public string itDesc = "Description";
+    public bool itEqup = true;
     [Space]
     public Sprite itIcon;
     public GameObject itPrefab;
     [Space]
     public bool isStackable;
     public int maxStack = 1;
+    public int value = 0;
 
     [Header("Consumables")]
     public float plusHB = 10.0f;
     public float plusHP = 10.0f;
 
     [Header("WepsANDTools")]
-    public float Wdmg = 0.0f;
-    public float STdmg = 0.0f;
-    public float WTdmg = 0.0f;
+    public float WepDmg = 0.0f;
+    public float StoneDmg = 0.0f;
+    public float WoodDmg = 0.0f;
 }

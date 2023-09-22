@@ -19,9 +19,9 @@ MonoBehaviour:
   itPrefab: {fileID: 8826981275806522534, guid: bbebdbaa115d93449ae1d4ad7ed003ed,
     type: 3}
   isStackable: 0
-  maxStack: 30
+  maxStack: 35
   plusHB: 0
   plusHP: 0
-  Wdmg: 14
-  STdmg: 0
-  WTdmg: 0
+  WepDmg: 20
+  StoneDmg: 4
+  WoodDmg: 4

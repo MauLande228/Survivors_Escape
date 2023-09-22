@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69a98fd73a3bf647aba8ee6bc5f0ed3, type: 3}
+  m_Name: FrutalDelight
+  m_EditorClassIdentifier: 
+  itType: 3
+  itName: Frutal Delight
+  itDesc: A combination of certain fruits. It boosts your luck
+  itEqup: 0
+  itIcon: {fileID: 0}
+  itPrefab: {fileID: 0}
+  isStackable: 1
+  maxStack: 2
+  plusHB: 10
+  plusHP: 10
+  WepDmg: 0
+  StoneDmg: 0
+  WoodDmg: 0
