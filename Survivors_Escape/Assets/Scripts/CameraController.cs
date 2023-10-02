@@ -43,7 +43,7 @@ namespace SurvivorsEscape
         private Vector3 _newPosition;
         private Quaternion _newRotation;
 
-        public Vector3 _cameraPlanarDirection { get => _planarDirection; }
+        public Vector3 _cameraPlanarDirection => _planarDirection;
 
         private void OnValidate()
         {
@@ -91,6 +91,9 @@ namespace SurvivorsEscape
 
             Vector3 focusPosition = _followTransform.position + _camera.transform.TransformDirection(_framing);
             _planarDirection = Quaternion.Euler(0, mouseX, 0) * _planarDirection;
+
+            //Debug.Log(_planarDirection);
+
             _targetVerticalAngle = Mathf.Clamp(_targetVerticalAngle + mouseY, _minVerticalAngle, _maxVerticalAngle);
             _targetDistance = Mathf.Clamp(_targetDistance + zoom, _minDistance, _maxDistance);
 

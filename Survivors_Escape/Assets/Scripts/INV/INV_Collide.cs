@@ -21,13 +21,13 @@ public class INV_Collide : NetworkBehaviour
                 if (cc.IsOwner)
                 {
                     Debug.Log("PICK UP");
-                    bDestroyed = other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
+                    bDestroyed = other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup, cc);
                 }
             }
 
             if(bDestroyed)
             {
-                Destroy(pickup.gameObject);
+                //Destroy(pickup.gameObject);
             }
         }
     }

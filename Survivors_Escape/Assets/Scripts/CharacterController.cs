@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Netcode;
+using static UnityEditor.Progress;
 
 namespace SurvivorsEscape
 {
@@ -33,6 +34,10 @@ namespace SurvivorsEscape
         [SerializeField] private float _moveSharpness = 10f;
         [SerializeField] private float _standingRotationSharpness = 10f;
         [SerializeField] private float _crouchingRotationSharpness = 10f;
+
+        [Header("Body parts")]
+        [SerializeField] private Transform _hand;
+        private GameObject _handVessel;
 
         #region ANIMATOR_STATE_NAMES
         private const string _standToCrouch = "Base Layer.Base Crouching";
@@ -67,6 +72,10 @@ namespace SurvivorsEscape
         private Quaternion _newRotation;
 
         private bool _proning;
+        private bool _bInvOpen = false;
+
+        private GameObject _handInt;
+        private GameObject _handBone;
 
         private void Start()
         {
@@ -75,6 +84,57 @@ namespace SurvivorsEscape
             _inputs = GetComponent<InputManager>();
             _eventHandler = GetComponent<EventHandler>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
+
+            _handVessel = GameObject.Find("mixamorig1:RightHand");
+            if (_handVessel != null)
+            {
+                Debug.Log("GOT THE BONE");
+                _handVessel.AddComponent<NetworkObject>();
+
+                var nw = _handVessel.GetComponent<NetworkObject>();
+                if (nw != null)
+                {
+                   // nw.Spawn(true);
+                    Debug.Log("Spawned HAND VESSEL");
+                }
+            }
+            
+            _handBone = GameObject.Find("WeaponAttach");
+            if (_handBone != null)
+            {
+                Debug.Log("GOT THE HAND BRI");
+                var nw = _handBone.GetComponent<NetworkObject>();
+                if (nw != null)
+                {
+                    nw.Spawn(true);
+                    Debug.Log("SPAWNED THE HAND BROSK");
+                }
+            }
+
+            ReparentHandClientRpc();
+
+            /*if (_handBone == null)
+            {
+                Debug.Log("HAND NOT FUCKING FOUND");
+            }
+
+            if (_handVessel != null)
+            {
+                _handInt = Instantiate(_handVessel, _handBone.transform);
+                if (_handInt != null)
+                {
+                    Debug.Log("EMPTY OBJECT INSTANTIATE");
+                }
+
+                var nw = _handInt.GetComponent<NetworkObject>();
+                if (nw != null)
+                {
+                    Debug.Log("EMPTY OBJECT HAS NT");
+                    nw.Spawn(true);
+                    _handInt.transform.SetParent(_handBone.transform);
+                }
+            }*/
+            
 
             _runSpeed = _standingSpeed.x;
             _sprintSpeed = _standingSpeed.y;
@@ -98,6 +158,13 @@ namespace SurvivorsEscape
             _eventHandler.Event.AddListener(OnEvent);
         }
 
+        [ClientRpc]
+        void ReparentHandClientRpc()
+        {
+
+            _handBone.transform.SetParent(transform, false);
+        }
+
         private void Update()
         {
             if (_proning) return;
@@ -105,9 +172,25 @@ namespace SurvivorsEscape
 
             Vector3 moveInputVector = new Vector3(_inputs.MoveAxisRight, 0, _inputs.MoveAxisForward);
             Vector3 cameraPlanarDirection = _cameraController._cameraPlanarDirection;
-            Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection);
 
+            Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection);
             Vector3 moveInputVectorOrientation = cameraPlanarRotation * moveInputVector.normalized;
+
+            if (_inputs.CursosrEnable.Pressed())
+            {
+                if (_bInvOpen)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    _bInvOpen = false;
+                    Debug.Log("Inv close");
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    _bInvOpen = true;
+                    Debug.Log("Inv open");
+                }
+            }
 
             if(_strafing)
             {
@@ -315,6 +398,20 @@ namespace SurvivorsEscape
                     _inAnimation = false;
                     break;
             }
+        }
+
+        public void TakeWeapon(INV_PickUp item)
+        {
+            Vector3 newPosition = new Vector3(0.087f, 0.082f, 0.07f);
+            Vector3 newRotation = new Vector3(-162.30f, 71.77f, -29.83f);
+
+            var rb = item.GetComponent<Rigidbody>();
+            if (rb != null)
+                Destroy(rb);
+
+            item.transform.parent = _handBone.transform;
+            item.gameObject.transform.position = _handVessel.transform.position;
+            item.gameObject.transform.eulerAngles = _handVessel.transform.eulerAngles;
         }
 
         int IHitResponder.Damage { get => _damage; }

@@ -37,6 +37,7 @@ namespace SurvivorsEscape
         public Input Crouch;
         public Input Aim;
         public Input Attack;
+        public Input CursosrEnable;
 
         public int MoveAxisForward
         {

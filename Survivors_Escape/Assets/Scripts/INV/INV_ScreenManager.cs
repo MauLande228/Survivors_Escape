@@ -38,12 +38,18 @@ public class INV_ScreenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SurvivorsEscape.CharacterController cc = dropPos.GetComponentInParent<SurvivorsEscape.CharacterController>();
 
-
-        GenSlots();
-        ChangeSelected(1);
-        buttonsImgA.enabled = false;
-        buttonsImgB.enabled = false;
+        if (cc != null)
+        {
+            if (cc.IsOwner)
+            {
+                GenSlots();
+                ChangeSelected(1);
+                buttonsImgA.enabled = false;
+                buttonsImgB.enabled = false;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -101,38 +107,45 @@ public class INV_ScreenManager : MonoBehaviour
 
     void ChangeSelected(int newSlotPos)
     {
-        if (newSlotPos > 0 && newSlotPos < 8)
-        {
-            allSlots[currentSlot].UnselectS();
-            allSlots[newSlotPos].SelectS();
-            currentSlot = newSlotPos;
+        SurvivorsEscape.CharacterController cc = dropPos.GetComponentInParent<SurvivorsEscape.CharacterController>();
 
-            if(allSlots[currentSlot].stackSize != 0)
+        if (cc != null)
+        {
+            if (cc.IsOwner)
             {
-                if (allSlots[currentSlot].data.itType.ToString() == "Consumable")
+                if (newSlotPos > 0 && newSlotPos < 8)
                 {
-                    SetToButtonsB();
-                    currentType = 1;
+                    allSlots[currentSlot].UnselectS();
+                    allSlots[newSlotPos].SelectS();
+                    currentSlot = newSlotPos;
+
+                    if (allSlots[currentSlot].stackSize != 0)
+                    {
+                        if (allSlots[currentSlot].data.itType.ToString() == "Consumable")
+                        {
+                            SetToButtonsB();
+                            currentType = 1;
+                        }
+                        else
+                        {
+                            SetToButtonsA();
+                            currentType = 0;
+                        }
+                        UpdateDesc(allSlots[currentSlot].data.itName, allSlots[currentSlot].data.itType.ToString(), allSlots[currentSlot].data.itDesc);
+                        //Debug.Log(allSlots[currentSlot].data.itType.ToString());
+                    }
+                    else
+                    {
+                        UpdateNoDesc();
+                        SetToNoButtons();
+                    }
                 }
                 else
                 {
-                    SetToButtonsA();
-                    currentType = 0;
+                    selectedSlot = currentSlot;
                 }
-                UpdateDesc(allSlots[currentSlot].data.itName, allSlots[currentSlot].data.itType.ToString(), allSlots[currentSlot].data.itDesc);
-                //Debug.Log(allSlots[currentSlot].data.itType.ToString());
-            }
-            else
-            {
-                UpdateNoDesc();
-                SetToNoButtons();
             }
         }
-        else
-        {
-            selectedSlot = currentSlot;
-        }
-        
     }
 
     void SetToButtonsA()
@@ -245,28 +258,34 @@ public class INV_ScreenManager : MonoBehaviour
         allSlots = allSlots_.ToArray();
     }
 
-    //public void Check()
-    //{
-    //    Debug.Log("recognized inventory manager");
-    //}
-
     public void UpdateCurrentSlot(Slot s)
     {
-        if (s.data.itType.ToString() == "Consumable")
+
+
+        SurvivorsEscape.CharacterController cc = dropPos.GetComponentInParent<SurvivorsEscape.CharacterController>();
+
+        if (cc != null)
         {
-            SetToButtonsB();
-            currentType = 1;
-        }
-        else
-        {
-            SetToButtonsA();
-            currentType = 0;
-        }
-        UpdateDesc(s.data.itName, s.data.itType.ToString(), s.data.itDesc);
+            if (cc.IsOwner)
+            {
+                if (s.data.itType.ToString() == "Consumable")
+                {
+                    SetToButtonsB();
+                    currentType = 1;
+                }
+                else
+                {
+                    SetToButtonsA();
+                    currentType = 0;
+                }
+                UpdateDesc(s.data.itName, s.data.itType.ToString(), s.data.itDesc);
+            }
+        }  
     }
 
-    public bool AddItem(INV_PickUp pickUp)
+    public bool AddItem(INV_PickUp pickUp, SurvivorsEscape.CharacterController cc)
     {
+        Debug.Log("PICKED ITEM UP BRO");
         bool isIn = false;
 
         if (pickUp.data.isStackable)
@@ -352,7 +371,7 @@ public class INV_ScreenManager : MonoBehaviour
                     {
                         UpdateCurrentSlot(emptySlot);
                     }
-                    Destroy(pickUp.gameObject);
+                    //Destroy(pickUp.gameObject);
                 }
                 else
                 {
@@ -386,7 +405,15 @@ public class INV_ScreenManager : MonoBehaviour
                 {
                     UpdateCurrentSlot(emptySlot);
                 }
-                Destroy(pickUp.gameObject);
+
+                cc.TakeWeapon(pickUp);
+                //Vector3 newPosition = new Vector3(0.087f, 0.082f, 0.07f);
+                //Vector3 newRotation = new Vector3(-162.30f, 71.77f, -29.83f);
+                //
+                //pickUp.gameObject.transform.localPosition = newPosition;
+                //pickUp.gameObject.transform.localEulerAngles = newRotation;
+
+                //Destroy(pickUp.gameObject);
             }
             else
             {
@@ -400,20 +427,6 @@ public class INV_ScreenManager : MonoBehaviour
 
     public void DropItem(Slot slot)
     {
-        slot.SetDropPos(dropPos);
-        if(slot.itisEmpty)
-        {
-            Debug.Log("Slot is empty");
-        }
-        if(slot.data == null)
-        {
-            Debug.Log("Slot is null");
-        }
-
-        Debug.Log(slot.stackSize.ToString());
-
-        //Spawner.Instace.DropItem(slot);
-        //slot.data.dropPos = dropPos;
         int i = Spawner.Instace.GetItemIndex(slot.data);
         Spawner.Instace._spawnableList._itemsList[i].dropPos = dropPos;
 
@@ -423,15 +436,6 @@ public class INV_ScreenManager : MonoBehaviour
         float z = positon.z;
 
         Spawner.Instace.SpawnObjectServerRpc(Spawner.Instace.GetItemIndex(slot.data), slot.stackSize, x, y, z);
-
-        /*GameObject itDropModel = slot.data.itPrefab;
-        INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
-        pickup.transform.position = dropPos.position;
-        pickup.transform.SetParent(null);
-
-        pickup.data = slot.data;
-        pickup.stackSize = slot.stackSize;*/
-
         slot.Clean();
     }
 
