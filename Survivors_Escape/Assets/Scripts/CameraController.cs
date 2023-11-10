@@ -129,5 +129,12 @@ namespace SurvivorsEscape
             _camera.transform.position = _newPosition;
             #endregion
         }
+
+        public void AddIgnoreColliders(Collider coll)
+        {
+            //_ignoreColliders.Add(coll);
+            _ignoreColliders.AddRange(GetComponentsInChildren<Collider>());
+            Debug.Log("COLLIDER ADDED");
+        }
     }
 }

@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using SurvivorsEscape;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using Cache = Unity.VisualScripting.Cache;
 
 public class WeaponGraber : MonoBehaviour
 {
@@ -33,6 +36,20 @@ public class WeaponGraber : MonoBehaviour
                 Debug.Log("HAND VESSEL FOUND IN WEAPON GRABER");
 
             _prevParent = transform.parent;
+
+            var cameraController = GetComponentInParent<CameraController>();
+            if (cameraController != null)
+            {
+                var collider = GetComponent<Collider>();
+                if (collider != null)
+                    cameraController.AddIgnoreColliders(collider);
+                else
+                    Debug.Log("COLLIDER NOT FOUND");
+            }
+            else
+            {
+                Debug.Log("Camera controller component NOT FOUND");
+            }
         }
     }
 
@@ -41,7 +58,14 @@ public class WeaponGraber : MonoBehaviour
         if (_handVessel != null)
         {
             transform.position = _handVessel.transform.position;
-            transform.rotation = _handVessel.transform.rotation;
+
+            // These constants were calculated based on the player's transform at a random position were the 
+            // weapon in hand looked all right.
+            float x = _handVessel.transform.eulerAngles.x - 171f;
+            float y = _handVessel.transform.eulerAngles.y - 455.32f;
+            float z = _handVessel.transform.eulerAngles.z - 225.01f;
+
+            transform.eulerAngles = new Vector3(x, y, z);
         }
     }
 }
