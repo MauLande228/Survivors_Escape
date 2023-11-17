@@ -34,7 +34,7 @@ public class CheckEnemyInFOVRange : BT.Node
             return State;
         }
 
-        State = NodeState.FAILURE;
+        State = NodeState.SUCCESS;
         return State;
     }
 }
