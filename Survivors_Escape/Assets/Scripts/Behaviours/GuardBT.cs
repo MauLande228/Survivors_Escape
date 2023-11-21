@@ -17,6 +17,11 @@ public class GuardBT : BT.Tree
         {
             new Sequence(new List<Node>
             {
+                new CheckEnemyInAttackRange(transform),
+                new TaskAttack(transform)
+            }),
+            new Sequence(new List<Node>
+            {
                 new CheckEnemyInFOVRange(transform),
                 new TaskGoToTarget(transform)
             }),

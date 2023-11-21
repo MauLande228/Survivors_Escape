@@ -5,7 +5,7 @@ using BT;
 
 public class CheckEnemyInFOVRange : BT.Node
 {
-    private static int _enemyLayerMask = 1 << 6;
+    private static int _enemyLayerMask = 1 << 7;
     private Transform _transform;
     private Animator _animator;
 
