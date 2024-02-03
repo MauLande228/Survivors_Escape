@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -12,7 +13,7 @@ namespace SurvivorsEscape
         [Header("Framing")]
         [SerializeField] private Camera _camera = null;
         [SerializeField] private Transform _followTransform = null;
-        [SerializeField] private Vector3 _framing = new Vector3(0, 0, 0);
+        [SerializeField] private Vector3 _framing = new Vector3(0.5f, 0, 0);
 
         [Header("Distance")]
         [SerializeField] private float _zoomSpeed = 10f;
@@ -39,6 +40,7 @@ namespace SurvivorsEscape
         private float _targetVerticalAngle;
         private float _targetDistance;
         private Vector3 _targetPosition;
+        private bool _isAiming = false;
 
         private Vector3 _newPosition;
         private Quaternion _newRotation;
@@ -95,7 +97,23 @@ namespace SurvivorsEscape
             //Debug.Log(_planarDirection);
 
             _targetVerticalAngle = Mathf.Clamp(_targetVerticalAngle + mouseY, _minVerticalAngle, _maxVerticalAngle);
-            _targetDistance = Mathf.Clamp(_targetDistance + zoom, _minDistance, _maxDistance);
+
+            if (_isAiming)
+            {
+                _framing.x = Mathf.Lerp(_framing.x, 1.5f, Time.deltaTime * _zoomSpeed);
+                _targetDistance = Mathf.Lerp(_targetDistance, 1.5f, Time.deltaTime * _zoomSpeed);
+            }
+            else
+            {
+                _framing.x = Mathf.Lerp(_framing.x, 0.1f, Time.deltaTime * _zoomSpeed);
+                _targetDistance = Mathf.Lerp(_targetDistance, 2.5f, Time.deltaTime * _zoomSpeed);
+            }
+
+            // Enable zoom
+            //_targetDistance = Mathf.Clamp(_targetDistance + zoom, _minDistance, _maxDistance);
+
+            // Disable zoom
+            _targetDistance = Mathf.Clamp(_targetDistance, _minDistance, _maxDistance);
 
             float smallestDistance = _targetDistance;
             RaycastHit[] hits = Physics.SphereCastAll(
@@ -135,6 +153,11 @@ namespace SurvivorsEscape
             //_ignoreColliders.Add(coll);
             _ignoreColliders.AddRange(GetComponentsInChildren<Collider>());
             Debug.Log("COLLIDER ADDED");
+        }
+
+        public void SetAimView(bool isAimView)
+        {
+            _isAiming = isAimView;
         }
     }
 }

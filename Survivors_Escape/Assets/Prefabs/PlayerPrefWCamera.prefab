@@ -295,7 +295,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9db108023e5657840992709d37c66bfc,
         type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerPrefWCamera
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 9db108023e5657840992709d37c66bfc,
         type: 3}
@@ -410,11 +410,17 @@ MonoBehaviour:
   Crouch:
     _primary: 122
     _alternate: 0
-  Aim:
-    _primary: 101
+  Draw:
+    _primary: 0
     _alternate: 0
   Attack:
     _primary: 323
+    _alternate: 0
+  Aim:
+    _primary: 324
+    _alternate: 0
+  CursosrEnable:
+    _primary: 9
     _alternate: 0
 --- !u!114 &792117364431962035
 MonoBehaviour:
@@ -467,6 +473,7 @@ MonoBehaviour:
   _moveSharpness: 10
   _standingRotationSharpness: 7
   _crouchingRotationSharpness: 5
+  _hand: {fileID: 0}
 --- !u!54 &7115982049521525782
 Rigidbody:
   m_ObjectHideFlags: 0

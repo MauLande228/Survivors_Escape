@@ -72,6 +72,7 @@ namespace SurvivorsEscape
         private Quaternion _newRotation;
 
         private bool _proning;
+        private bool _isAiming;
         private bool _bInvOpen = false;
 
         private GameObject _handInt;
@@ -176,7 +177,7 @@ namespace SurvivorsEscape
             Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection);
             Vector3 moveInputVectorOrientation = cameraPlanarRotation * moveInputVector.normalized;
 
-            if (_inputs.CursosrEnable.Pressed())
+            if (_inputs.CursosrEnable.PressedDown())
             {
                 if (_bInvOpen)
                 {
@@ -192,15 +193,32 @@ namespace SurvivorsEscape
                 }
             }
 
+            if (_inputs.Aim.Pressed())
+            {
+                if (!_isAiming)
+                {
+                    _cameraController.SetAimView(true);
+                    _isAiming = true;
+                }
+            }
+            else
+            {
+                if (_isAiming)
+                {
+                    _cameraController.SetAimView(false);
+                    _isAiming = false;
+                }
+            }
+
             if(_strafing)
             {
                 _sprinting = _inputs.Sprint.PressedDown() && (moveInputVector != Vector3.zero);
-                _strafing = !_inputs.Aim.PressedDown() && !_sprinting;
+                _strafing = !_inputs.Draw.PressedDown() && !_sprinting;
             }
             else
             {
                 _sprinting = _inputs.Sprint.Pressed() && (moveInputVector != Vector3.zero);
-                _strafing = _inputs.Aim.PressedDown();
+                _strafing = _inputs.Draw.PressedDown();
             }
 
             if (_sprinting)
