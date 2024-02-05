@@ -56,6 +56,7 @@ namespace SurvivorsEscape
 
         private bool _strafing;
         private bool _sprinting;
+        private bool _hasGun;
         private float _strafeParameter;
         private Vector3 _strafeParameterXZ;
 
@@ -83,6 +84,8 @@ namespace SurvivorsEscape
 
         private void Start()
         {
+            _hasGun = true;
+
             _animator = GetComponent<Animator>();
             _cameraController = IsOwner ? GetComponent<CameraController>() : null;
             _inputs = GetComponent<InputManager>();
@@ -268,7 +271,19 @@ namespace SurvivorsEscape
                 _strafeParameterXZ = Vector3.Lerp(_strafeParameterXZ, Vector3.forward * _newSpeed, _moveSharpness * Time.deltaTime);
             }
 
-            _animator.SetFloat("Strifing", _strafeParameter);
+            if (_hasGun)
+            {
+                _animator.SetFloat("Strifing", -_strafeParameter);
+                //float sp = _strafeParameter * -1f;
+                //Debug.Log("Negative strafe parameter: " + sp);
+                //Debug.Log("Normal strafe parameter: " + _strafeParameter);
+            }
+            else
+            {
+                _animator.SetFloat("Strifing", _strafeParameter);
+            }
+
+
             _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
             _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
 
