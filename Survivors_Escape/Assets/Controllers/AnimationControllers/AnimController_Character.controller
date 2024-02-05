@@ -72,7 +72,7 @@ AnimatorStateMachine:
     m_Position: {x: 330, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -9205963765923777195}
-    m_Position: {x: 330, y: 240, z: 0}
+    m_Position: {x: 200, y: 250, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -118,7 +118,7 @@ BlendTree:
     m_DirectBlendParameter: Strifing
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 1813e4dcee496764aa74d7ee375f0594,
+    m_Motion: {fileID: -203655887218126122, guid: c6ad4e7bd768f4d4f83c67b0a173ebc8,
       type: 3}
     m_Threshold: 12
     m_Position: {x: 0, y: -2}
@@ -135,7 +135,7 @@ BlendTree:
     m_DirectBlendParameter: Strifing
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 4c819f0ffbb0e3646a4a5412129113e4,
+    m_Motion: {fileID: -203655887218126122, guid: 9143129837dbb1d4e9d3f42338445d2f,
       type: 3}
     m_Threshold: 16
     m_Position: {x: 2, y: 0}
@@ -144,7 +144,7 @@ BlendTree:
     m_DirectBlendParameter: Strifing
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: b8bd5c92587763240bcdf4a62267d0d2,
+    m_Motion: {fileID: -203655887218126122, guid: f9e4a182742e4a949a5c4b0fd9f4cd88,
       type: 3}
     m_Threshold: 18
     m_Position: {x: -2, y: 0}
@@ -177,7 +177,7 @@ BlendTree:
     m_DirectBlendParameter: Strifing
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 9d05bb7f1611b7045bd93bfbeb5486fc,
+    m_Motion: {fileID: -203655887218126122, guid: e37db3582d1284743b5c8bf850e67ce9,
       type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
@@ -202,10 +202,8 @@ AnimatorState:
   m_Name: Melee attack horizontal
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 9202453399503015842}
-  m_StateMachineBehaviours:
-  - {fileID: -6883941717023405076}
+  m_Transitions: []
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -335,7 +333,7 @@ BlendTree:
     m_DirectBlendParameter: Strifing
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: eddc77b5c6d61ad4cbab1a7648a3c68f,
+    m_Motion: {fileID: -203655887218126122, guid: 6cccfde616ed14b4684a77c100bc7a41,
       type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}

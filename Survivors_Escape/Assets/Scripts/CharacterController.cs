@@ -39,6 +39,9 @@ namespace SurvivorsEscape
         [SerializeField] private Transform _hand;
         private GameObject _handVessel;
 
+        [Header("Shootable objects")] 
+        [SerializeField] private LayerMask aimLayerMask = new LayerMask();
+
         #region ANIMATOR_STATE_NAMES
         private const string _standToCrouch = "Base Layer.Base Crouching";
         private const string _crouchToStand = "Base Layer.Base Standing";
@@ -281,6 +284,13 @@ namespace SurvivorsEscape
             if(_hitting)
             {
                 _hitBox.CheckHit();
+            }
+
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
+            {
+                transform.position = raycastHit.point;
             }
         }
 

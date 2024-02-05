@@ -13,7 +13,7 @@ namespace SurvivorsEscape
         [Header("Framing")]
         [SerializeField] private Camera _camera = null;
         [SerializeField] private Transform _followTransform = null;
-        [SerializeField] private Vector3 _framing = new Vector3(0.5f, 0, 0);
+        [SerializeField] private Vector3 _framing = new Vector3(0.65f, 0, 0);
 
         [Header("Distance")]
         [SerializeField] private float _zoomSpeed = 10f;
@@ -105,7 +105,7 @@ namespace SurvivorsEscape
             }
             else
             {
-                _framing.x = Mathf.Lerp(_framing.x, 0.1f, Time.deltaTime * _zoomSpeed);
+                _framing.x = Mathf.Lerp(_framing.x, 0.65f, Time.deltaTime * _zoomSpeed);
                 _targetDistance = Mathf.Lerp(_targetDistance, 2.5f, Time.deltaTime * _zoomSpeed);
             }
 
