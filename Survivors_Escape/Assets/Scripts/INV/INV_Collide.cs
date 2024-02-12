@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class INV_Collide : MonoBehaviour
@@ -24,6 +25,18 @@ public class INV_Collide : MonoBehaviour
             {
                 other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
             }
+            else
+            {
+                STR_Main storage = this.GetComponent<STR_Main>();
+                if (storage != null)
+                {
+                    if(!storage.opened)
+                    {
+                        storage.Open(other.GetComponentInChildren<STR_UI>());
+                    }
+                }
+            }
+
         }
     }
 

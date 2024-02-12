@@ -113,5 +113,14 @@ namespace SurvivorsEscape
             _camera.transform.position = _newPosition;
             #endregion
         }
+
+        public void DisableCam()
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        public void EnableCam()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }
