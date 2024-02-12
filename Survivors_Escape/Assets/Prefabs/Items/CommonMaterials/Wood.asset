@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Wood
   itDesc: Bar of wood obtained from trees
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 41e3dc774d0b0b543aca33c8be47b7fd, type: 3}
+  itPrefab: {fileID: 7061457595858746688, guid: 5cd453f38ac0ddc46b843fa9c1a3c555,
+    type: 3}
   isStackable: 1
   maxStack: 100
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

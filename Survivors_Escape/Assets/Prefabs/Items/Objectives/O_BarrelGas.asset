@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Gas Barrel
   itDesc: Barrel full of fuel
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 2b5d7c62c4955a94aa7d6078db72e08a, type: 3}
+  itPrefab: {fileID: 2317072895080471981, guid: 2d8c4442eeaf47f41bf1b093cbbc91ac,
+    type: 3}
   isStackable: 1
   maxStack: 5
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

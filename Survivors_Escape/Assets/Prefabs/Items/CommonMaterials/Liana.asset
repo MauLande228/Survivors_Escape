@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Liana
   itDesc: Green long vine. Found sometimes in big trees
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 5369c114e0ba94449a48e0b99bf35ee8, type: 3}
+  itPrefab: {fileID: 8961978748714614936, guid: ad5193d0d73e429489d406a84c0985cb,
+    type: 3}
   isStackable: 1
   maxStack: 50
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

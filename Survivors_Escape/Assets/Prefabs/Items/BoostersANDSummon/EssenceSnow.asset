@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Snow Essence
   itDesc: Blue essence obtained from snow living creatures. Can repair the Luck Booster
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 3dbf7a699f938fc4c807128c624e6fcd, type: 3}
+  itPrefab: {fileID: 8762462568814742658, guid: 0afbd88c140cbeb4eaa97ccc9fce6b7e,
+    type: 3}
   isStackable: 1
   maxStack: 10
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

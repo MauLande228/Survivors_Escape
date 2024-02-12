@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Gear
   itDesc: Piece of gear to complete the mechanic system
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 6061471ac3cee2d4f8b0015c3b30d648, type: 3}
+  itPrefab: {fileID: 4347399120967922769, guid: aeadd7262c932904eb4f272e33737113,
+    type: 3}
   isStackable: 1
   maxStack: 1
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

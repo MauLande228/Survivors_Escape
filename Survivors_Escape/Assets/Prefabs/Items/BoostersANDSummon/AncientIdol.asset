@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Ancient Idol
   itDesc: Mysterious summoner that allows you to ask for a trade
   itEqup: 0
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 39d3b47cb6f2e2e48a8a297f6bc90daa, type: 3}
+  itPrefab: {fileID: 4412166786139507372, guid: b14702d22a436fd43937f05b259fbaf4,
+    type: 3}
   isStackable: 1
   maxStack: 1
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

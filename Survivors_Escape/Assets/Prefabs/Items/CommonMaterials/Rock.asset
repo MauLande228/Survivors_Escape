@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Rock
   itDesc: Stone obtained from big rocks
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: a9306641ce73c854d951fe4f5570a8a7, type: 3}
+  itPrefab: {fileID: 5513743271135483932, guid: d36fb738402cf0f43a9cd04d560e4bc5,
+    type: 3}
   isStackable: 1
   maxStack: 100
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

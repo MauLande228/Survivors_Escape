@@ -30,7 +30,7 @@ public class INV_ScreenManager : MonoBehaviour
 
     public TextMeshProUGUI descSpace;
 
-    private Slot[] invSlots;
+    public Slot[] invSlots;
     [SerializeField] public Slot[] allSlots;
 
     public SurvivorsEscape.CameraController cont;
@@ -409,6 +409,121 @@ public class INV_ScreenManager : MonoBehaviour
         return false;
     }
 
+    public bool CreateItem(Inv_itemSO dt, int st)
+    {
+        bool f = false;
+
+        if (dt.isStackable) // IF ITS STACKABLE
+        {
+            Slot stackableSlot = null;
+
+            // TRY FINDING STACKABLE SLOT
+            for (int i = 0; i < invSlots.Length; i++)
+            {
+                if (!invSlots[i].itisEmpty)
+                {
+                    if (invSlots[i].data == dt && invSlots[i].stackSize < dt.maxStack)
+                    {
+                        stackableSlot = invSlots[i];
+                        break;
+                    }
+                }
+            }
+
+            if (stackableSlot != null)
+            {
+                if (stackableSlot.stackSize + st > dt.maxStack) // IF IT CANNOT FIT THE PICKED UP AMOUNT
+                {
+                    int amountLeft = (stackableSlot.stackSize + st) - dt.maxStack;
+
+                    // ADD IT TO THE STACKABLE SLOT
+                    stackableSlot.AddItemToSlot(dt, dt.maxStack);
+
+                    // TRY FIND A NEW EMPTY STACK
+                    for (int i = 0; i < invSlots.Length; i++)
+                    {
+                        if (invSlots[i].itisEmpty)
+                        {
+                            invSlots[i].AddItemToSlot(dt, amountLeft);
+                            invSlots[i].UpdateSlot();
+                            f = true;
+                            break;
+                        }
+                    }
+                    if (!f)
+                    {
+                        stackableSlot.UpdateSlot();
+                        //strui.SetSlot(ss, amountLeft);
+                        DropCraftItem(dt, amountLeft);
+                        return false;
+                    }
+                }
+                else // IF IT CAN FIT THE PICKED UP AMOUNT
+                {
+                    stackableSlot.AddStackAmount(st);
+                }
+                stackableSlot.UpdateSlot();
+                return true;
+            }
+            else
+            {
+                Slot emptySlot = null;
+
+                // FIND EMPTY SLOT
+                for (int i = 0; i < invSlots.Length; i++)
+                {
+                    if (invSlots[i].itisEmpty)
+                    {
+                        emptySlot = invSlots[i];
+                        break;
+                    }
+                }
+
+                // IF WE HAVE AN EMPTY SLOT THAN ADD THE ITEM
+                if (emptySlot != null)
+                {
+                    emptySlot.AddItemToSlot(dt, st);
+                    emptySlot.UpdateSlot();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                    //pickUp.transform.position = dropPos.position;
+                }
+            }
+        }
+        else // IF ITS NOT STACKABLE
+        {
+            Slot emptySlot = null;
+
+            // FIND EMPTY SLOT
+            for (int i = 0; i < invSlots.Length; i++)
+            {
+                if (invSlots[i].itisEmpty)
+                {
+                    emptySlot = invSlots[i];
+                    break;
+                }
+            }
+
+            // IF WE HAVE AN EMPTY SLOT THAN ADD THE ITEM
+            if (emptySlot != null)
+            {
+                emptySlot.AddItemToSlot(dt, st);
+                emptySlot.UpdateSlot();
+                return true;
+            }
+            else
+            {
+                return false;
+                //pickUp.transform.position = dropPos.position;
+            }
+        }
+        Debug.Log("Salida final en INV_SM");
+        return false;
+    }
+
     public void AddItem(INV_PickUp pickUp)
     {
         bool isIn = false;
@@ -557,5 +672,19 @@ public class INV_ScreenManager : MonoBehaviour
         slot.Clean();
     }
 
+    public void DropCraftItem(Inv_itemSO dt, int nl)
+    {
+        Debug.Log(dt.itType.ToString());
+        GameObject itDropModel = dt.itPrefab;
+
+        UpdateNoDesc();
+        SetToNoButtons();
+        INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
+        pickup.transform.position = dropPos.position;
+        pickup.transform.SetParent(null);
+
+        pickup.data = dt;
+        pickup.stackSize = nl;
+    }
 
 }

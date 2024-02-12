@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Frutal Delight
   itDesc: A combination of certain fruits. It boosts your luck
   itEqup: 0
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 356258a565db9244cb6ae30c27b68af2, type: 3}
+  itPrefab: {fileID: 4191920457192618501, guid: b9ea6b38faa657843accc09f9e3a34e5,
+    type: 3}
   isStackable: 1
   maxStack: 2
+  value: 0
   plusHB: 10
   plusHP: 10
   WepDmg: 0

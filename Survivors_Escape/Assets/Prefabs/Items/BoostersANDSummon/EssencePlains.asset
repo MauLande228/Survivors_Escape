@@ -17,10 +17,12 @@ MonoBehaviour:
   itDesc: Red essence obtained from plains living creatures. Can repair the Defense
     Booster
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: ffab26e466d050140aff6acb679e79ee, type: 3}
+  itPrefab: {fileID: 4098803488786464192, guid: 831981d70a2fe7846b2f9779943e9275,
+    type: 3}
   isStackable: 1
   maxStack: 10
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

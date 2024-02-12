@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Fuel
   itDesc: Supply to fill barrels of gas
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 74d044fd7f5632240a8d68c23474424b, type: 3}
+  itPrefab: {fileID: 1982282311500082051, guid: 27a9259451066e5408f4574131d88524,
+    type: 3}
   isStackable: 1
   maxStack: 5
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

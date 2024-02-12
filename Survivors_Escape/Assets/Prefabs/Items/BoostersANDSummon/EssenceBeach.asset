@@ -17,10 +17,12 @@ MonoBehaviour:
   itDesc: Yellow essence obtained from beach living creatures. Can repair the Attack
     Booster
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 09930fb4a87dc8144a40c1a90948378c, type: 3}
+  itPrefab: {fileID: 2294801392949547437, guid: 5a6bdfa749fe99a41bda7389cf33dbb3,
+    type: 3}
   isStackable: 1
   maxStack: 10
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

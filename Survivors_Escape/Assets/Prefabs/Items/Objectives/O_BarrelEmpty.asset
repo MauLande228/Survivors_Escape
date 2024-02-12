@@ -16,10 +16,12 @@ MonoBehaviour:
   itName: Empty Barrel
   itDesc: Empty barrel to store fuel
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: 1dae8f049699b7241b08b0770dca4831, type: 3}
+  itPrefab: {fileID: 7969984126358278396, guid: 8cb1524646a44ea48b2283822009a219,
+    type: 3}
   isStackable: 1
   maxStack: 5
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0

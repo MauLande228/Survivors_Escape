@@ -17,10 +17,12 @@ MonoBehaviour:
   itDesc: Green essence obtained from forest living creatures. Can repair the Speed
     Booster
   itEqup: 1
-  itIcon: {fileID: 0}
-  itPrefab: {fileID: 0}
+  itIcon: {fileID: 21300000, guid: a23ba854863e710438f7ec53788dca0a, type: 3}
+  itPrefab: {fileID: 5697059000687858998, guid: 68190cbc9fcb4824b809e4ac2ba7b925,
+    type: 3}
   isStackable: 1
   maxStack: 10
+  value: 0
   plusHB: 0
   plusHP: 0
   WepDmg: 0
