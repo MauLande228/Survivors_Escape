@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class INV_Collide : NetworkBehaviour
@@ -29,6 +30,18 @@ public class INV_Collide : NetworkBehaviour
             {
                 //Destroy(pickup.gameObject);
             }
+            else
+            {
+                STR_Main storage = this.GetComponent<STR_Main>();
+                if (storage != null)
+                {
+                    if(!storage.opened)
+                    {
+                        storage.Open(other.GetComponentInChildren<STR_UI>());
+                    }
+                }
+            }
+
         }
     }
 }

@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.Netcode;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IPointerClickHandler
 {
     public Inv_itemSO data;
     public int stackSize;
@@ -20,6 +22,8 @@ public class Slot : MonoBehaviour
     public Color32 selectC = new(255, 255, 0, 255);
     public Color32 unselectC = new(255, 255, 255, 255);
 
+    public INV_ScreenManager inv;
+
     //public GameObject mainSlot;
 
     private bool isEmpty;
@@ -28,6 +32,7 @@ public class Slot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inv = GetComponentInParent<INV_ScreenManager>();
         UpdateSlot();
     }
 
@@ -119,5 +124,21 @@ public class Slot : MonoBehaviour
     public Transform GetCurrentDropPos()
     {
         return _transform;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (inv.strui_op)
+        {
+            int v = System.Array.IndexOf(inv.allSlots, this);
+            inv.StoreSlot(v);
+        }
+        else
+        {
+            int v = System.Array.IndexOf(inv.allSlots, this);
+            //throw new System.NotImplementedException();
+            inv.UpdateSelected(v);
+            inv.ChangeSelected(v);
+        }
     }
 }
