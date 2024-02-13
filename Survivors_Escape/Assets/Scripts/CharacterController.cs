@@ -4,7 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Netcode;
-using static UnityEditor.Progress;
+using UnityEngine.Networking;
 
 namespace SurvivorsEscape
 {
@@ -46,6 +46,7 @@ namespace SurvivorsEscape
         private const string _standToCrouch = "Base Layer.Base Crouching";
         private const string _crouchToStand = "Base Layer.Base Standing";
         private const string _meleeAtack    = "Base Layer.Melee attack horizontal";
+        private const string _shootRifle    = "Base Layer.Shoot rifle";
         #endregion
 
         private bool _inAnimation;
@@ -119,29 +120,6 @@ namespace SurvivorsEscape
             }
 
             ReparentHandClientRpc();
-
-            /*if (_handBone == null)
-            {
-                Debug.Log("HAND NOT FUCKING FOUND");
-            }
-
-            if (_handVessel != null)
-            {
-                _handInt = Instantiate(_handVessel, _handBone.transform);
-                if (_handInt != null)
-                {
-                    Debug.Log("EMPTY OBJECT INSTANTIATE");
-                }
-
-                var nw = _handInt.GetComponent<NetworkObject>();
-                if (nw != null)
-                {
-                    Debug.Log("EMPTY OBJECT HAS NT");
-                    nw.Spawn(true);
-                    _handInt.transform.SetParent(_handBone.transform);
-                }
-            }*/
-            
 
             _runSpeed = _standingSpeed.x;
             _sprintSpeed = _standingSpeed.y;
@@ -274,9 +252,6 @@ namespace SurvivorsEscape
             if (_hasGun)
             {
                 _animator.SetFloat("Strifing", -_strafeParameter);
-                //float sp = _strafeParameter * -1f;
-                //Debug.Log("Negative strafe parameter: " + sp);
-                //Debug.Log("Normal strafe parameter: " + _strafeParameter);
             }
             else
             {
@@ -287,12 +262,22 @@ namespace SurvivorsEscape
             _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
             _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
 
-            if(!_inAnimation)
+            if (!_hasGun)
             {
-                if(_inputs.Attack.PressedDown())
+                if (!_inAnimation)
                 {
-                    _inAnimation = true;
-                    _animator.CrossFadeInFixedTime(_meleeAtack, 0.1f, 0, 0);
+                    if (_inputs.Attack.PressedDown())
+                    {
+                        _inAnimation = true;
+                        _animator.CrossFadeInFixedTime(_meleeAtack, 0.1f, 0, 0);
+                    }
+                }
+            }
+            else
+            {
+                if (_inputs.Attack.PressedDown())
+                {
+                    _animator.CrossFadeInFixedTime(_shootRifle, 0.1f, 0, 0);
                 }
             }
 

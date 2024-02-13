@@ -26,9 +26,9 @@ public class INV_Collide : NetworkBehaviour
                 }
             }
 
-            if(bDestroyed)
+            if(!bDestroyed)
             {
-                //Destroy(pickup.gameObject);
+                Destroy(pickup.gameObject);
             }
             else
             {

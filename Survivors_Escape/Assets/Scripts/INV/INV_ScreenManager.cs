@@ -30,8 +30,8 @@ public class INV_ScreenManager : MonoBehaviour
 
     public TextMeshProUGUI descSpace;
 
-    private Slot[] invSlots;
-    [SerializeField] private Slot[] allSlots;
+    public Slot[] invSlots;
+    public Slot[] allSlots;
     [SerializeField] private SpawnableList _spawnableList;
 
     private bool _bCanBeDestroyed = false;
@@ -49,8 +49,6 @@ public class INV_ScreenManager : MonoBehaviour
             {
                 GenSlots();
                 ChangeSelected(1);
-                buttonsImgA.enabled = false;
-                buttonsImgB.enabled = false;
                 strui = GetComponentInChildren<STR_UI>();
             }
         }
@@ -64,7 +62,6 @@ public class INV_ScreenManager : MonoBehaviour
         if (opened)
         {
             transform.localPosition = new Vector3(0, 0, 0);
-            cont.DisableCam();
 
             if (Input.GetKeyDown(equipKey))
             {
@@ -98,7 +95,6 @@ public class INV_ScreenManager : MonoBehaviour
                 strui.op = false;
                 strui.Close();
             }
-            cont.EnableCam();
         }
 
         //if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -132,7 +128,7 @@ public class INV_ScreenManager : MonoBehaviour
         {
             if (cc.IsOwner)
             {
-                if (newSlotPos > 0 && newSlotPos < 8)
+                if (newSlotPos > 0 && newSlotPos <= 6)
                 {
                     allSlots[currentSlot].UnselectS();
                     allSlots[newSlotPos].SelectS();
@@ -140,15 +136,13 @@ public class INV_ScreenManager : MonoBehaviour
 
                     if (allSlots[currentSlot].stackSize != 0)
                     {
-                        if (allSlots[currentSlot].data.itType.ToString() == "Consumable")
+                        if (allSlots[currentSlot].data.itEqup)
                         {
-                            SetToButtonsB();
-                            currentType = 1;
+                            SetToButtonsA();
                         }
                         else
                         {
-                            SetToButtonsA();
-                            currentType = 0;
+                            SetToButtonsB();
                         }
                         UpdateDesc(allSlots[currentSlot].data.itName, allSlots[currentSlot].data.itType.ToString(), allSlots[currentSlot].data.itDesc);
                         //Debug.Log(allSlots[currentSlot].data.itType.ToString());
@@ -161,8 +155,7 @@ public class INV_ScreenManager : MonoBehaviour
                 }
                 else
                 {
-                    SetToButtonsA();
-                    currentType = 0;
+                    selectedSlot = currentSlot;
                 }
             }
         }
@@ -308,15 +301,13 @@ public class INV_ScreenManager : MonoBehaviour
         {
             if (cc.IsOwner)
             {
-                if (s.data.itType.ToString() == "Consumable")
+                if (s.data.itEqup)
                 {
-                    SetToButtonsB();
-                    currentType = 1;
+                    SetToButtonsA();
                 }
                 else
                 {
-                    SetToButtonsA();
-                    currentType = 0;
+                    SetToButtonsB();
                 }
                 UpdateDesc(s.data.itName, s.data.itType.ToString(), s.data.itDesc);
             }
