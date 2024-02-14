@@ -1,29 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class INV_Collide : MonoBehaviour
+public class INV_Collide : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    static bool bDestroyed = true;
 
     private void OnTriggerEnter(Collider other)
-    {
-        
+    {   
         if (other.CompareTag("Player"))
         {
-            //Debug.Log("Touching something");
             INV_PickUp pickup = this.GetComponent<INV_PickUp>();
-            //Debug.Log(pickup.stackSize);
+            GameObject go = other.gameObject;
+            SurvivorsEscape.CharacterController cc = go.GetComponent<SurvivorsEscape.CharacterController>();
 
-            if (pickup != null)
+            if (pickup != null && cc != null)
             {
-                other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup);
+                if (cc.IsOwner)
+                {
+                    Debug.Log("PICK UP");
+                    bDestroyed = other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup, cc);
+                }
+            }
+
+            if(!bDestroyed)
+            {
+                Destroy(pickup.gameObject);
             }
             else
             {
@@ -39,10 +44,4 @@ public class INV_Collide : MonoBehaviour
 
         }
     }
-
-    // Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
 }

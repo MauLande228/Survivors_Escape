@@ -30,4 +30,5 @@ public class Inv_itemSO : ScriptableObject
     public float WepDmg = 0.0f;
     public float StoneDmg = 0.0f;
     public float WoodDmg = 0.0f;
+    public Transform dropPos;
 }
