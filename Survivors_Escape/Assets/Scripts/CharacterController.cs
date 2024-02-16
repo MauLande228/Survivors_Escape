@@ -41,6 +41,13 @@ namespace SurvivorsEscape
 
         [Header("Shootable objects")] 
         [SerializeField] private LayerMask aimLayerMask = new LayerMask();
+        [SerializeField] private Transform _bullerProjectile;
+        [SerializeField] private Transform _spawnBulletPosition;
+
+        [SerializeField] private Transform _debugTransform;
+
+        [Header("Shooting particles")]
+        [SerializeField] private Transform _vfxParticlesCollition;
 
         #region ANIMATOR_STATE_NAMES
         private const string _standToCrouch = "Base Layer.Base Crouching";
@@ -79,6 +86,7 @@ namespace SurvivorsEscape
         private bool _proning;
         private bool _isAiming;
         private bool _bInvOpen = false;
+        private Vector3 _mouseWorldPosition = new Vector3();
 
         private GameObject _handInt;
         private GameObject _handBone;
@@ -262,6 +270,16 @@ namespace SurvivorsEscape
             _animator.SetFloat("StrifingX", Mathf.Round(_strafeParameterXZ.x * 100f) / 100f);
             _animator.SetFloat("StrifingZ", Mathf.Round(_strafeParameterXZ.z * 100f) / 100f);
 
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            Transform hitTransform = null;
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
+            {
+                _debugTransform.position = raycastHit.point;
+                _mouseWorldPosition = raycastHit.point;
+                hitTransform = raycastHit.transform;
+            }
+
             if (!_hasGun)
             {
                 if (!_inAnimation)
@@ -275,22 +293,30 @@ namespace SurvivorsEscape
             }
             else
             {
-                if (_inputs.Attack.PressedDown())
+                if (!_inAnimation)
                 {
-                    _animator.CrossFadeInFixedTime(_shootRifle, 0.1f, 0, 0);
+                    if (_inputs.Attack.PressedDown())
+                    {
+                        Vector3 aimDir = (_mouseWorldPosition - _spawnBulletPosition.position).normalized;
+                        Instantiate(_bullerProjectile, _spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+
+                        /*if (hitTransform != null)
+                        {
+                            if (hitTransform.GetComponent<BulletTarget>() != null)
+                            {
+                                Instantiate(_vfxParticlesCollition, transform.position, Quaternion.identity);
+                            }
+                        }*/
+
+                        _inAnimation = true;
+                        _animator.CrossFadeInFixedTime(_shootRifle, 0.1f, 0, 0);
+                    }
                 }
             }
 
             if(_hitting)
             {
                 _hitBox.CheckHit();
-            }
-
-            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
-            {
-                transform.position = raycastHit.point;
             }
         }
 
