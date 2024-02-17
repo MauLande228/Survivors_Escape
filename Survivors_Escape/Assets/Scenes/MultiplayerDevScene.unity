@@ -5713,19 +5713,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunInBackground: 1
-  LogLevel: 1
+  LogLevel: 0
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 2048418984}
-    PlayerPrefab: {fileID: 2211191862671032799, guid: 32ee2d3561062ea4aa98d95e0c7a0399,
+    PlayerPrefab: {fileID: 2211191862671032799, guid: cfa548b206187054285633b50e698ac8,
       type: 3}
     NetworkPrefabs:
-    - Override: 0
-      Prefab: {fileID: 7535828139355627286, guid: ddec4dccd6c556142b4e9c5ab2cdef2a,
-        type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
     - Override: 0
       Prefab: {fileID: 741248350561087677, guid: c0c49a46a2d36624fa0efd0e2de05ad8,
         type: 3}

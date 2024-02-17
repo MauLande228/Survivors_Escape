@@ -36,22 +36,16 @@ public class INV_ScreenManager : MonoBehaviour
 
     private bool _bCanBeDestroyed = false;
 
-    STR_UI strui;
+    public STR_UI strui;
     public bool strui_op = false;
     // Start is called before the first frame update
     void Start()
     {
         SurvivorsEscape.CharacterController cc = dropPos.GetComponentInParent<SurvivorsEscape.CharacterController>();
 
-        if (cc != null)
-        {
-            if (cc.IsOwner)
-            {
-                GenSlots();
-                ChangeSelected(1);
-                strui = GetComponentInChildren<STR_UI>();
-            }
-        }
+        GenSlots();
+        ChangeSelected(1);
+        strui = GetComponentInChildren<STR_UI>();
     }
 
     // Update is called once per frame

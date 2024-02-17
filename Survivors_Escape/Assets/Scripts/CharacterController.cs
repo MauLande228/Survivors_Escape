@@ -155,7 +155,7 @@ namespace SurvivorsEscape
         void ReparentHandClientRpc()
         {
 
-            _handBone.transform.SetParent(transform, false);
+            //_handBone.transform.SetParent(transform, false);
         }
 
         private void Update()
