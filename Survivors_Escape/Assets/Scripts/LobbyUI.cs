@@ -13,14 +13,13 @@ public class LobbyUI : MonoBehaviour
     {
         _createGameButton.onClick.AddListener(() =>
         {
-            NetworkManager.Singleton.StartHost();
-            Debug.Log("Starting HOST");
+            SurvivorsEscapeMultiplayer.Instance.StartHost();
+            SceneLoader.LoadNetwork(SceneLoader.Scene.CharacterSelectScene);
         });
 
         _joinGameButton.onClick.AddListener(() =>
         {
-            NetworkManager.Singleton.StartClient();
-            Debug.Log("Starting CLIENT");
+            SurvivorsEscapeMultiplayer.Instance.StartClient();
         });
     }
 }
