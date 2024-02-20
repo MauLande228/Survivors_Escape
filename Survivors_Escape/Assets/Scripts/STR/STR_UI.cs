@@ -7,12 +7,14 @@ public class STR_UI : MonoBehaviour
 {
     public List<S_Slot> allslots;
     public STR_Main storageO;
+    public STR_Objectives stob;
     public S_Slot slotPrefab;
     public Transform content;
 
-    INV_ScreenManager inv;
+    public INV_ScreenManager inv;
 
-    public bool op;
+    public bool op = false;
+    public bool inrange = false;
     public Vector3 oppos;
 
     // Start is called before the first frame update
@@ -27,30 +29,38 @@ public class STR_UI : MonoBehaviour
         if (op)
         {
             transform.localPosition = oppos;
-            inv.opened = true;
-            inv.strui_op = true;
+            //inv.opened = true;
+            //inv.strui_op = true;
         }
         else
         {
-            inv.strui_op = false;
+            //inv.strui_op = false;
             transform.localPosition = new Vector3(-10000, 0, 0);
         }
     }
+    public STR_Objectives ReturnObj()
+    {
+        return stob;
+    }
+
     public void TakeSlot(int ss)
     {
-        Inv_itemSO dt = allslots[ss].data;
-        int st = allslots[ss].stackSize;
-
-        //SI TIENE QUE RETORNAR SI SI SE PUDO METER
-        bool s = inv.SaveItem(dt, st, ss);
-
-        if (s) //SOLO SI SI SE PUDO AÑADIR
+        if (allslots[ss].data != null)
         {
-            allslots[ss].Clean();
-        }
-        else
-        {
-            allslots[ss].UpdateSlot();
+            Inv_itemSO dt = allslots[ss].data;
+            int st = allslots[ss].stackSize;
+
+            //SI TIENE QUE RETORNAR SI SI SE PUDO METER
+            bool s = inv.SaveItem(dt, st, ss);
+
+            if (s) //SOLO SI SI SE PUDO AÑADIR
+            {
+                allslots[ss].Clean();
+            }
+            else
+            {
+                allslots[ss].UpdateSlot();
+            }
         }
     }
 
@@ -208,14 +218,14 @@ public class STR_UI : MonoBehaviour
         return allslots.ToArray();
     }
 
-    public void Close()
+    public void Close(STR_UI st)
     {
         if(storageO == null)
         {
             return;
         }
 
-        storageO.Close(allslots.ToArray());
+        storageO.Close(allslots.ToArray(), st);
         S_Slot[] slotsToDestroy = GetComponentsInChildren<S_Slot>();
 
         for (int i = 0; i < slotsToDestroy.Length; i++)

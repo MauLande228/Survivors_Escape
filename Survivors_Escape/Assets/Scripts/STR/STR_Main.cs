@@ -8,6 +8,7 @@ public class STR_Main : MonoBehaviour
     public STR_Slot sslotPrefab;
     public int chestSize = 14;
     public bool opened;
+    public int bh = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +36,7 @@ public class STR_Main : MonoBehaviour
         opened = true;
     }
 
-    public void Close(S_Slot[] uiSlots)
+    public void Close(S_Slot[] uiSlots, STR_UI st)
     {
         for (int i = 0; i < sslots.Length; i++)
         {
@@ -52,5 +53,52 @@ public class STR_Main : MonoBehaviour
         }
 
         opened = false;
+        if (bh == 1)
+        {
+            CheckStored(st);
+        }
+    }
+
+    //Behavior 1 : Repository
+    public void CheckStored(STR_UI st)
+    {
+        STR_Objectives stob = st.ReturnObj();
+        stob.ResetAll();
+
+        for (int i = 0; i < sslots.Length; i++)
+        {
+            //Inv_itemSO itm = sslots[i].itemdata;
+            if (sslots[i].itemdata != null)
+            {
+                //Debug.Log("Not null");
+                if (sslots[i].itemdata.itType.ToString() == "Unique")
+                {
+                    string nm = sslots[i].itemdata.itName;
+                    int ns = sslots[i].stack;
+
+                    switch (nm)
+                    {
+                        case "Gas Barrel":
+                            stob.UpGBarrel(ns);
+                            //Debug.Log("Stored Gas Barrel (" + ns.ToString() + ")");
+                            break;
+                        case "Electric Engine":
+                            stob.UpElecEng(ns);
+                            //Debug.Log("Stored Electric Engine (" + ns.ToString() + ")");
+                            break;
+                        case "Gear":
+                            stob.UpGear(ns);
+                            //Debug.Log("Stored Gear (" + ns.ToString() + ")");
+                            break;
+                        case "Pressure Gauge":
+                            stob.UpPressG(ns);
+                            //Debug.Log("Stored Pressure Gauge (" + ns.ToString() + ")");
+                            break;
+                    }
+                }
+            }
+
+            
+        }
     }
 }

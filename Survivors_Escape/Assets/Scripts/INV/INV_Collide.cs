@@ -25,23 +25,23 @@ public class INV_Collide : NetworkBehaviour
                     bDestroyed = other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup, cc);
                 }
             }
+            else
+            {
+                //STR_Main storage = GetComponent<STR_Main>();
+                //if (storage != null)
+                //{
+                //    if (!storage.opened)
+                //    {
+                //        Debug.Log("CHEST TOUCHED");
+                //        storage.Open(other.GetComponentInChildren<STR_UI>());
+                //    }
+                //}
+            }
 
-            if(!bDestroyed)
+            if (bDestroyed)
             {
                 Destroy(pickup.gameObject);
             }
-            else
-            {
-                STR_Main storage = this.GetComponent<STR_Main>();
-                if (storage != null)
-                {
-                    if(!storage.opened)
-                    {
-                        storage.Open(other.GetComponentInChildren<STR_UI>());
-                    }
-                }
-            }
-
         }
     }
 }
