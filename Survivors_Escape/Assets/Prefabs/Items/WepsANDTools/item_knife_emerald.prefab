@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3747728303703775478}
   - component: {fileID: 4726270973697159012}
   - component: {fileID: 3059652543161351831}
+  - component: {fileID: -601380100938437523}
   m_Layer: 0
   m_Name: item_knife_emerald
   m_TagString: Untagged
@@ -195,3 +196,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.051961526, y: 0.020000005, z: 0.4156249}
   m_Center: {x: 0, y: 0, z: 0.19781245}
+--- !u!114 &-601380100938437523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900836348460076337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

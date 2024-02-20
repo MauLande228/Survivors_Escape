@@ -7,6 +7,7 @@ public class CraftManager : MonoBehaviour
     private INV_ScreenManager inv;
     public CraftRecipeTemp rec_temp;
     public CraftRecipeSO[] recs;
+    public CraftRecipeSO[] allr;
 
     public Transform contentH;
     public CraftRecipeTemp inCraft;
@@ -45,23 +46,48 @@ public class CraftManager : MonoBehaviour
     {
         for (int i = 0; i < recs.Length; i++)
         {
-            CraftRecipeTemp rec = Instantiate(rec_temp.gameObject, contentH).GetComponent<CraftRecipeTemp>();
-
-            rec.rec_so = recs[i];
-            rec.rec_ico.sprite = recs[i].ss_ico;
-            rec.rec_name.text = recs[i].srec_name;
-            rec.rec_time.text = "";
-
-            for(int j = 0; j < recs[i].reqs.Length; j++)
+            if (recs[i] != null)
             {
-                if (j == 0)
+                CraftRecipeTemp rec = Instantiate(rec_temp.gameObject, contentH).GetComponent<CraftRecipeTemp>();
+
+                rec.rec_so = recs[i];
+                rec.rec_ico.sprite = recs[i].ss_ico;
+                rec.rec_name.text = recs[i].srec_name;
+                rec.rec_time.text = "";
+
+                for (int j = 0; j < recs[i].reqs.Length; j++)
                 {
-                    rec.rec_reqr.text = $"{recs[i].reqs[j].rdata.itName} - {recs[i].reqs[j].rneed}";
+                    if (j == 0)
+                    {
+                        rec.rec_reqr.text = $"{recs[i].reqs[j].rdata.itName} - {recs[i].reqs[j].rneed}";
+                    }
+                    else
+                    {
+                        rec.rec_reqr.text = $"{rec.rec_reqr.text}, {recs[i].reqs[j].rdata.itName} - {recs[i].reqs[j].rneed}";
+                    }
                 }
-                else
-                {
-                    rec.rec_reqr.text = $"{rec.rec_reqr.text}, {recs[i].reqs[j].rdata.itName} - {recs[i].reqs[j].rneed}";
-                }
+            }
+        }
+    }
+
+    public void AddRecs(int i)
+    {
+        CraftRecipeTemp rec = Instantiate(rec_temp.gameObject, contentH).GetComponent<CraftRecipeTemp>();
+
+        rec.rec_so = allr[i];
+        rec.rec_ico.sprite = allr[i].ss_ico;
+        rec.rec_name.text = allr[i].srec_name;
+        rec.rec_time.text = "";
+
+        for (int j = 0; j < allr[i].reqs.Length; j++)
+        {
+            if (j == 0)
+            {
+                rec.rec_reqr.text = $"{allr[i].reqs[j].rdata.itName} - {allr[i].reqs[j].rneed}";
+            }
+            else
+            {
+                rec.rec_reqr.text = $"{rec.rec_reqr.text}, {allr[i].reqs[j].rdata.itName} - {allr[i].reqs[j].rneed}";
             }
         }
     }

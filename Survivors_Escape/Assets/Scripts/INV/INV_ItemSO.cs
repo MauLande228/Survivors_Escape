@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Inv_itemSO : ScriptableObject
 {
-    public enum itemType { Material, Weapon, Tool, Consumable, Booster }
+    public enum itemType { Material, Weapon, Tool, Consumable, Special, Unique }
 
     [Header("Generals")]
     public itemType itType;
@@ -25,10 +25,14 @@ public class Inv_itemSO : ScriptableObject
     [Header("Consumables")]
     public float plusHB = 10.0f;
     public float plusHP = 10.0f;
+    public int act = 0;
 
     [Header("WepsANDTools")]
     public float WepDmg = 0.0f;
     public float StoneDmg = 0.0f;
     public float WoodDmg = 0.0f;
     public Transform dropPos;
+
+    [Header("Specials")]
+    public int efx = 0;
 }

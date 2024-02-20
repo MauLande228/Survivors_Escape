@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7553161493158199830}
   - component: {fileID: 279578489180256980}
   - component: {fileID: 2716785003582335459}
+  - component: {fileID: 8115774410601221787}
   m_Layer: 0
   m_Name: item_blueberry
   m_TagString: Untagged
@@ -195,3 +196,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.21999994, y: 0.21412688, z: 0.03975}
   m_Center: {x: -0.009999994, y: -4.3213322e-10, z: -0.0011249977}
+--- !u!114 &8115774410601221787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7356839056093505147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
