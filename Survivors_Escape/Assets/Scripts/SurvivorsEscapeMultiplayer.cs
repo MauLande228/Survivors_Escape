@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Services.Authentication;
 
 public class SurvivorsEscapeMultiplayer : NetworkBehaviour
 {
@@ -60,7 +61,7 @@ public class SurvivorsEscapeMultiplayer : NetworkBehaviour
 
     private void PlayerDataNetworkList_OnListChanged(NetworkListEvent<PlayerData> changeEvent)
     {
-        //OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
+        OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void StartHost()
@@ -92,7 +93,7 @@ public class SurvivorsEscapeMultiplayer : NetworkBehaviour
             colorId = GetFirstUnusedColorId(),
         });
         SetPlayerNameServerRpc(GetPlayerName());
-        //SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
     }
 
     private void NetworkManager_ConnectionApprovalCallback(

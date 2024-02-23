@@ -5,11 +5,13 @@ using Unity.Netcode;
 
 public class PlayersManager : NetworkBehaviour
 {
+    public static PlayersManager Instance { get; private set; }
+
     private List<NetworkObject> playerObjects = new List<NetworkObject>();
 
     void Start()
     {
-        
+        Instance = this;
     }
 
     void Update()

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2876079832959138259}
   - component: {fileID: 3450095964906952053}
   - component: {fileID: 1720624978147221418}
+  - component: {fileID: -9081787813769561860}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -146,6 +147,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f81e96e124e4f4d80e4f607c846842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxParticlesCollition: {fileID: 613433886817584985, guid: 6e845b0e80fad2d4c93ff505a0750129,
+  vfxHitGreen: {fileID: 613433886817584985, guid: 6e845b0e80fad2d4c93ff505a0750129,
     type: 3}
-  _speed: 1
+  vfxHitRed: {fileID: 613433886817584985, guid: 9f5fbcfb6299c2b4c912f3ff44f14463,
+    type: 3}
+--- !u!114 &-9081787813769561860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562857300937339819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
