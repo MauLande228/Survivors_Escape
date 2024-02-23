@@ -93,13 +93,16 @@ namespace SurvivorsEscape
 
         private void Start()
         {
-            _hasGun = false;
+            _hasGun = true;
 
             _animator = GetComponent<Animator>();
             _cameraController = IsOwner ? GetComponent<CameraController>() : null;
             _inputs = GetComponent<InputManager>();
             _eventHandler = GetComponent<EventHandler>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
+
+            int id = SurvivorsEscapeMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId);
+            //SurvivorsEscapeMultiplayer.Instance.SetPlayerReference(id, gameObject);
 
             _handVessel = GameObject.Find("mixamorig1:RightHand");
             if (_handVessel != null)
@@ -297,8 +300,19 @@ namespace SurvivorsEscape
                 {
                     if (_inputs.Attack.PressedDown())
                     {
+                        _inAnimation = true;
+                        _animator.CrossFadeInFixedTime(_shootRifle, 0.1f, 0, 0);
+
                         Vector3 aimDir = (_mouseWorldPosition - _spawnBulletPosition.position).normalized;
-                        Instantiate(_bullerProjectile, _spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+
+                        Spawner.Instace.SpawnBulletServerRpc(_spawnBulletPosition.position.x,
+                            _spawnBulletPosition.position.y,
+                            _spawnBulletPosition.position.z,
+                            aimDir.x,
+                            aimDir.y,
+                            aimDir.z);
+
+                        //Instantiate(_bullerProjectile, _spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
 
                         /*if (hitTransform != null)
                         {
@@ -308,8 +322,7 @@ namespace SurvivorsEscape
                             }
                         }*/
 
-                        _inAnimation = true;
-                        _animator.CrossFadeInFixedTime(_shootRifle, 0.1f, 0, 0);
+                        
                     }
                 }
             }

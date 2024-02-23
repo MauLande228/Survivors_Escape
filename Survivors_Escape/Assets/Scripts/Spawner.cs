@@ -54,7 +54,36 @@ public class Spawner : NetworkBehaviour
         pickup.stackSize = stackSize;
      }
 
-     public int GetItemIndex(Inv_itemSO itemSO)
+     [ServerRpc(RequireOwnership = false)]
+     public void SpawnBulletServerRpc(float x1, float y1, float z1, float x2, float y2, float z2)
+     {
+
+         //Vector3 aimDir = (_mouseWorldPosition - _spawnBulletPosition.position).normalized;
+         //Instantiate(_bullerProjectile, _spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+
+        var item = GetItemFromIndex(47);
+
+         if (item == null)
+         {
+             Debug.Log("Prefab null");
+         }
+
+         GameObject itModel = item.itPrefab;
+
+         Vector3 pos = new Vector3(x1, y1, z1);
+         Vector3 aimDir = new Vector3(x2, y2, z2);
+
+         Instantiate(itModel, pos, Quaternion.LookRotation(aimDir, Vector3.up));
+
+
+         NetworkObject networkObject = itModel.GetComponent<NetworkObject>();
+         if (networkObject != null)
+         {
+             networkObject.Spawn(true);
+         }
+     }
+
+    public int GetItemIndex(Inv_itemSO itemSO)
     {
         return _spawnableList._itemsList.IndexOf(itemSO);
     }
