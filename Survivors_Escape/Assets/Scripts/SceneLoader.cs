@@ -11,6 +11,7 @@ public static class SceneLoader
         MultiplayerDevScene, // Main scene
         LobbyScene,
         CharacterSelectScene,
+        MultiDev,
         LoadingScene
     }
 
