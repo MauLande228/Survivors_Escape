@@ -35,6 +35,17 @@ public class INV_ScreenManager : MonoBehaviour
     public Slot[] allSlots;
     [SerializeField] private SpawnableList _spawnableList;
 
+    private int currentTool = 0;
+    public GameObject s_axe; // 1
+    public GameObject e_axe; // 2
+    public GameObject r_axe; // 3
+    public GameObject d_axe; // 4
+    public GameObject s_pck; // 5
+    public GameObject e_pck; // 6
+    public GameObject r_pck; // 7
+    public GameObject d_pck; // 8
+    public GameObject hitbox;
+
     private bool _bCanBeDestroyed = false;
 
     public STR_UI strui;
@@ -42,11 +53,13 @@ public class INV_ScreenManager : MonoBehaviour
     public CraftManager craftui;
     public STR_Objectives objui;
 
+    private SurvivorsEscape.CharacterController cc;
+
     public bool strui_op = false;
     // Start is called before the first frame update
     void Start()
     {
-        SurvivorsEscape.CharacterController cc = dropPos.GetComponentInParent<SurvivorsEscape.CharacterController>();
+        cc = dropPos.GetComponentInParent<SurvivorsEscape.CharacterController>();
 
         GenSlots();
         ChangeSelected(1);
@@ -54,6 +67,7 @@ public class INV_ScreenManager : MonoBehaviour
         craftui = GetComponentInChildren<CraftManager>();
         objui = GetComponentInChildren<STR_Objectives>();
         objui.transform.localPosition = new Vector3(-10000, 0, 0);
+        currentTool = 0;
     }
 
     // Update is called once per frame
@@ -98,6 +112,8 @@ public class INV_ScreenManager : MonoBehaviour
             {
                 //if (allSlots[currentSlot].itisEmpty == false)
                 //{
+                if (allSlots[currentSlot].data != null)
+                {
                     if (allSlots[currentSlot].data.itEqup)
                     {
                         switch (currentSlot)
@@ -113,6 +129,7 @@ public class INV_ScreenManager : MonoBehaviour
                     {
                         ConsumeSlot(currentSlot);
                     }
+                }
                 //}
             }
 
@@ -151,6 +168,83 @@ public class INV_ScreenManager : MonoBehaviour
         //{
         //    if (currentSlot < 7) { selectedSlot += 7; ChangeSelected(selectedSlot); }
         //}
+    }
+
+    public void UnEquip(int ct)
+    {
+        switch (ct)
+        {
+            case 1:
+                s_axe.SetActive(false);
+                break;
+            case 2:
+                e_axe.SetActive(false);
+                break;
+            case 3:
+                r_axe.SetActive(false);
+                break;
+            case 4:
+                d_axe.SetActive(false);
+                break;
+            case 5:
+                s_pck.SetActive(false);
+                break;
+            case 6:
+                e_pck.SetActive(false);
+                break;
+            case 7:
+                r_pck.SetActive(false);
+                break;
+            case 8:
+                d_pck.SetActive(false);
+                break;
+            default:
+                break;
+        }
+        currentTool = 0;
+    }
+
+    public void DoEquip(string ct)
+    {
+        switch (ct)
+        {
+            case "Stone Axe":
+                s_axe.SetActive(true);
+                currentTool = 1;
+                break;
+            case "Emerald Axe":
+                e_axe.SetActive(true);
+                currentTool = 2;
+                break;
+            case "Ruby Axe":
+                r_axe.SetActive(true);
+                currentTool = 3;
+                break;
+            case "Diamond Axe":
+                d_axe.SetActive(true);
+                currentTool = 4;
+                break;
+            case "Stone Pickaxe":
+                s_pck.SetActive(true);
+                currentTool = 5;
+                break;
+            case "Emerald Pickaxe":
+                e_pck.SetActive(true);
+                currentTool = 6;
+                break;
+            case "Ruby Pickaxe":
+                r_pck.SetActive(true);
+                currentTool = 7;
+                break;
+            case "Diamond Pickaxe":
+                d_pck.SetActive(true);
+                currentTool = 8;
+                break;
+            default:
+                currentTool = 0;
+                break;
+        }
+        cc.SetDMG((int)allSlots[0].data.WepDmg, (int)allSlots[0].data.WoodDmg, (int)allSlots[0].data.StoneDmg);
     }
 
     public void setCurrentStorage(STR_Main stt)
@@ -254,8 +348,15 @@ public class INV_ScreenManager : MonoBehaviour
 
         //Debug.Log(ss);
 
-        allSlots[cs].data = allSlots[0].data;
-        allSlots[cs].stackSize = allSlots[0].stackSize;
+        if (allSlots[0].data != null)
+        {
+            allSlots[cs].data = allSlots[0].data;
+            allSlots[cs].stackSize = allSlots[0].stackSize;
+        }
+        else
+        {
+            allSlots[cs].Clean();
+        }
 
         allSlots[0].data = dt;
         allSlots[0].stackSize = ss;
@@ -264,14 +365,11 @@ public class INV_ScreenManager : MonoBehaviour
         allSlots[0].UpdateSlot();
 
         //if allSlots[0].data.itName
+        UnEquip(currentTool);
 
-        switch (allSlots[0].data.itName)
-        {
-            case "Emerald Axe":
-                Debug.Log("Equipped Emerald Axe!");
-                break;
-        }
-        
+        DoEquip(allSlots[0].data.itName);
+
+        //cc.SetDMG((int)allSlots[0].data.WepDmg, (int)allSlots[0].data.WoodDmg, (int)allSlots[0].data.StoneDmg);
         UpdateCurrentSlot(allSlots[cs]);
     }
 
@@ -406,15 +504,22 @@ public class INV_ScreenManager : MonoBehaviour
         {
             if (cc.IsOwner)
             {
-                if (s.data.itEqup)
+                if (s.data != null)
                 {
-                    SetToButtonsA();
+                    if (s.data.itEqup)
+                    {
+                        SetToButtonsA();
+                    }
+                    else
+                    {
+                        SetToButtonsB();
+                    }
+                    UpdateDesc(s.data.itName, s.data.itType.ToString(), s.data.itDesc);
                 }
                 else
                 {
-                    SetToButtonsB();
+                    SetToNoButtons();
                 }
-                UpdateDesc(s.data.itName, s.data.itType.ToString(), s.data.itDesc);
             }
         }  
     }
@@ -556,6 +661,7 @@ public class INV_ScreenManager : MonoBehaviour
 
     public bool CreateItem(Inv_itemSO dt, int st)
     {
+        bool isIn = false;
         bool f = false;
 
         if (dt.isStackable) // IF ITS STACKABLE
@@ -589,8 +695,14 @@ public class INV_ScreenManager : MonoBehaviour
                     {
                         if (invSlots[i].itisEmpty)
                         {
+                            if (i == currentSlot) { isIn = true; }
                             invSlots[i].AddItemToSlot(dt, amountLeft);
                             invSlots[i].UpdateSlot();
+                            if (isIn)
+                            {
+                                UpdateCurrentSlot(invSlots[i]);
+                            }
+                            stackableSlot.UpdateSlot();
                             f = true;
                             break;
                         }
@@ -606,9 +718,10 @@ public class INV_ScreenManager : MonoBehaviour
                 else // IF IT CAN FIT THE PICKED UP AMOUNT
                 {
                     stackableSlot.AddStackAmount(st);
+                    stackableSlot.UpdateSlot();
+                    return true;
                 }
-                stackableSlot.UpdateSlot();
-                return true;
+                
             }
             else
             {
@@ -620,6 +733,7 @@ public class INV_ScreenManager : MonoBehaviour
                     if (invSlots[i].itisEmpty)
                     {
                         emptySlot = invSlots[i];
+                        if (i == currentSlot) { isIn = true; }
                         break;
                     }
                 }
@@ -629,10 +743,15 @@ public class INV_ScreenManager : MonoBehaviour
                 {
                     emptySlot.AddItemToSlot(dt, st);
                     emptySlot.UpdateSlot();
+                    if (isIn)
+                    {
+                        UpdateCurrentSlot(emptySlot);
+                    }
                     return true;
                 }
                 else
                 {
+                    DropCraftItem(dt, st);
                     return false;
                     //pickUp.transform.position = dropPos.position;
                 }
@@ -641,13 +760,16 @@ public class INV_ScreenManager : MonoBehaviour
         else // IF ITS NOT STACKABLE
         {
             Slot emptySlot = null;
+            int s = 0;
 
             // FIND EMPTY SLOT
             for (int i = 0; i < invSlots.Length; i++)
             {
                 if (invSlots[i].itisEmpty)
                 {
+                    if (i == currentSlot) { isIn = true; }
                     emptySlot = invSlots[i];
+                    s = i;
                     break;
                 }
             }
@@ -657,10 +779,16 @@ public class INV_ScreenManager : MonoBehaviour
             {
                 emptySlot.AddItemToSlot(dt, st);
                 emptySlot.UpdateSlot();
+                if (isIn)
+                {
+                    UpdateCurrentSlot(emptySlot);
+                }
+                if (s == 0) { DoEquip(dt.itName); }
                 return true;
             }
             else
             {
+                DropCraftItem(dt, st);
                 return false;
                 //pickUp.transform.position = dropPos.position;
             }
@@ -675,8 +803,8 @@ public class INV_ScreenManager : MonoBehaviour
         bool isIn = false;
         bool f = false;
 
-        int e = pickUp.data.efx;
-        Debug.Log(e.ToString());
+        //int e = pickUp.data.efx;
+        //Debug.Log(e.ToString());
 
         if (pickUp.data.isStackable)
         {
@@ -772,7 +900,7 @@ public class INV_ScreenManager : MonoBehaviour
                 {
                     emptySlot.AddItemToSlot(pickUp.data, pickUp.stackSize);
                     emptySlot.UpdateSlot();
-                    EFX_Applied(e);
+                    //EFX_Applied(e);
                     if (isIn)
                     {
                         UpdateCurrentSlot(emptySlot);
@@ -791,7 +919,7 @@ public class INV_ScreenManager : MonoBehaviour
         else
         {
             Slot emptySlot = null;
-
+            int s = 0;
 
             // FIND EMPTY SLOT
             for (int i = 0; i < invSlots.Length; i++)
@@ -800,6 +928,7 @@ public class INV_ScreenManager : MonoBehaviour
                 {
                     if (i == currentSlot) { isIn = true; }
                     emptySlot = invSlots[i];
+                    s = i;
                     break;
                 }
             }
@@ -809,13 +938,14 @@ public class INV_ScreenManager : MonoBehaviour
             {
                 emptySlot.AddItemToSlot(pickUp.data, pickUp.stackSize);
                 emptySlot.UpdateSlot();
-                EFX_Applied(e);
+                //EFX_Applied(e);
                 if (isIn)
                 {
                     UpdateCurrentSlot(emptySlot);
                 }
-
-                cc.TakeWeapon(pickUp);
+                if (s == 0) { DoEquip(invSlots[0].data.itName); }
+                return true;
+                //cc.TakeWeapon(pickUp);
                 //Vector3 newPosition = new Vector3(0.087f, 0.082f, 0.07f);
                 //Vector3 newRotation = new Vector3(-162.30f, 71.77f, -29.83f);
                 //
@@ -844,6 +974,11 @@ public class INV_ScreenManager : MonoBehaviour
         float y = positon.y;
         float z = positon.z;
 
+        if (currentSlot == 0)
+        {
+            UnEquip(currentTool);
+        }
+
         Spawner.Instace.SpawnObjectServerRpc(Spawner.Instace.GetItemIndex(slot.data), slot.stackSize, x, y, z);
         //Debug.Log("Here");
         UpdateNoDesc();
@@ -852,16 +987,22 @@ public class INV_ScreenManager : MonoBehaviour
 
     public void DropCraftItem(Inv_itemSO dt, int nl)
     {
-        Debug.Log(dt.itType.ToString());
-        GameObject itDropModel = dt.itPrefab;
-        UpdateNoDesc();
-        SetToNoButtons();
-        INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
-        pickup.transform.position = dropPos.position;
-        pickup.transform.SetParent(null);
+        //Debug.Log(dt.itType.ToString());
+        int i = Spawner.Instace.GetItemIndex(dt);
+        Spawner.Instace._spawnableList._itemsList[i].dropPos = dropPos;
+        //UpdateNoDesc();
+        Vector3 positon = dropPos.position;
+        float x = positon.x;
+        float y = positon.y;
+        float z = positon.z;
+        //SetToNoButtons();
+        Spawner.Instace.SpawnObjectServerRpc(Spawner.Instace.GetItemIndex(dt), nl, x, y, z);
+        //INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
+        //pickup.transform.position = dropPos.position;
+        //pickup.transform.SetParent(null);
 
-        pickup.data = dt;
-        pickup.stackSize = nl;
+        //pickup.data = dt;
+        //pickup.stackSize = nl;
     }
 
     public void EFX_Applied(int e)
