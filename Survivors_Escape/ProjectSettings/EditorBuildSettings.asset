@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MultiplayerDevScene_UV.unity
     guid: c02ed34d54da715479ac1326131fda33
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MultiDev.unity
     guid: 995a8eca093c521419e998db9a5d146b
   m_configObjects: {}
