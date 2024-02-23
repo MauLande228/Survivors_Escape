@@ -39,9 +39,24 @@ public class SEHitBox : MonoBehaviour, IHitDetector
                 {
                     if(_hurtBoxMask.HasFlag((HurtBoxMask)hurtBox.Type))
                     {
+                        int xdmg = 0;
+                        switch (hurtBox.OType)
+                        {
+                            case 0:
+                                xdmg = _hitResponder.LifeDamage;
+                                break;
+                            case 1:
+                                xdmg = _hitResponder.WoodDamage;
+                                break;
+                            case 2:
+                                xdmg = _hitResponder.RockDamage;
+                                break;
+                            default:
+                                break;
+                        }
                         hitData = new HitInteraction
                         {
-                            Damage = _hitResponder == null ? 0 : _hitResponder.Damage,
+                            Damage = _hitResponder == null ? 0 : xdmg,
                             HitPoint = hit.point == Vector3.zero ? center : hit.point,
                             HitNormal = hit.normal,
                             HurtBox = hurtBox,
