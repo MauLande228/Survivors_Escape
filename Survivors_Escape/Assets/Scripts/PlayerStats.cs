@@ -17,6 +17,9 @@ public class PlayerStats : MonoBehaviour
     public float speed;
     public int luck;
 
+    [Header("Refs")]
+    public INV_ScreenManager inv;
+
     [Header("Enough")]
     public float regenhealth = 0.25f;
 
@@ -43,6 +46,7 @@ public class PlayerStats : MonoBehaviour
         speed = 1;
         luck = -1;
 
+        inv = GetComponentInChildren<INV_ScreenManager>();
         //uicolor = GetComponentInChildren<UI_opacity_time>();
     }
 
@@ -64,18 +68,32 @@ public class PlayerStats : MonoBehaviour
 
     }
 
+    bool hunger_lock = false;
+    bool life_lock = false;
     private void UpdateStats()
     {
         // Prevent out of limits
         if (health <= 0) { health = 0; }
         if (health > maxhealth) { health = maxhealth; }
 
-        if (hunger < 25.5 && hunger > 25)
+        if (hunger < 25.5 && !hunger_lock)
         {
-            //uicolor.Danger();
+            hunger_lock = true;
+            inv.IsHungry();
+            // Affect luck and damage and defense //uicolor.Danger();
         }
-
-        if (hunger <= 0) { hunger = 0; }
+        if (hunger > 65.5 && hunger_lock)
+        {
+            hunger_lock = false;
+            inv.IsFeeding();
+            // Recover luck and damage and defense
+        }
+        if (hunger <= 0 && !life_lock)
+        {
+            life_lock = true;
+            hunger = 0;
+            inv.IsDeadAsHell();
+        }
         if (hunger > maxhunger) { hunger = maxhunger; }
 
         // During idle state

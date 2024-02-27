@@ -102,8 +102,8 @@ public class CraftManager : MonoBehaviour
         TakeResources(tm.rec_so);
 
         inCraft = tm;
-        isCraft = true;
         ctime = tm.rec_so.out_tm;
+        isCraft = true;
     }
 
     public void Not_Craft(CraftRecipeTemp tm)

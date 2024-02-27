@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class RESC_Structure : MonoBehaviour, ITargetable, IHurtResponder
 {
-    public RESC_DropDataSO alldrops;
+    //public RESC_DropDataSO alldrops;
     public int hp = 0;
-    public int structype = 0; // 0:Stone // 1-4:TreeABCD // 5:Enemy
+    public int structype = 0; // 0:Stone // 1-5:TreeABCDN // 5:Enemy
     public Transform droploc;
     public int luck = 0;
 
@@ -82,6 +82,9 @@ public class RESC_Structure : MonoBehaviour, ITargetable, IHurtResponder
             case 4:
                 s = BrokeTree(); FruitsD(s); break;
             case 5:
+                s = BrokeTree();
+                break;
+            case 6:
                 break;
             default:
                 break;

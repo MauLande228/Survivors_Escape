@@ -10,6 +10,7 @@ public class SEHitBox : MonoBehaviour, IHitDetector
 
     private float _thickness = 0.025f;
     private IHitResponder _hitResponder;
+    public INV_ScreenManager inv;
 
     public IHitResponder HitResponder { get => _hitResponder; set => _hitResponder = value; }
 
@@ -44,12 +45,15 @@ public class SEHitBox : MonoBehaviour, IHitDetector
                         {
                             case 0:
                                 xdmg = _hitResponder.LifeDamage;
+                                inv.UseSlot();
                                 break;
                             case 1:
                                 xdmg = _hitResponder.WoodDamage;
+                                inv.UseSlot();
                                 break;
                             case 2:
                                 xdmg = _hitResponder.RockDamage;
+                                inv.UseSlot();
                                 break;
                             default:
                                 break;

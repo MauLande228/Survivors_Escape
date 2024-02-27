@@ -95,7 +95,7 @@ namespace SurvivorsEscape
 
         private void Start()
         {
-            _hasGun = true;
+            _hasGun = false;
 
             _animator = GetComponent<Animator>();
             _cameraController = IsOwner ? GetComponent<CameraController>() : null;
