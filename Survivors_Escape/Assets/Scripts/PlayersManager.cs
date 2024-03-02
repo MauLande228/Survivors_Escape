@@ -322,45 +322,45 @@ public class PlayersManager : NetworkBehaviour
         cev_apprdead.Add(cev);
     }
 
-//    float curr_dist2 = 10000.0
-//    float evhelpmeC = 0.002
+    //    float curr_dist2 = 10000.0
+    //    float evhelpmeC = 0.002
 
-//    GlobalChecks.EvHelpMe(yo){
-//        CharacterController nearest = FindNearest(yo)
-//        EvHelpLoop(yo, nearest)
-//    }
-//    GlobalChecks.EvHelpLoop(yo, nearest){
-//    while curr_dist2 > 15.0:
-//            wait(10s)
-//            new_dist = distancia(yo.x, yo.y, nearest.x, nearest.y)
-//            if new_dist < curr_dist2:
-//                EvHelpMeCohesion(true)
-//            else:
-//                EvHelpMeCohesion(false)
+    //    GlobalChecks.EvHelpMe(yo){
+    //        CharacterController nearest = FindNearest(yo)
+    //        EvHelpLoop(yo, nearest)
+    //    }
+    //    GlobalChecks.EvHelpLoop(yo, nearest){
+    //    while curr_dist2 > 15.0:
+    //            wait(10s)
+    //            new_dist = distancia(yo.x, yo.y, nearest.x, nearest.y)
+    //            if new_dist < curr_dist2:
+    //                EvHelpMeCohesion(true)
+    //            else:
+    //                EvHelpMeCohesion(false)
 
-//            curr_dist2 = new_dist
-//            N = N + 1
-//            if N > 3:
-//                EvHelpMeCohesion(false)
-//                N = 0
-//    }
-//    GlobalChecks.EvHelpMeCohesion(){
-//    if c:
-//            add cohesion*evhelpmeC
-//        else:
-//            substract cohesion*evhelpmeC
-//    }
+    //            curr_dist2 = new_dist
+    //            N = N + 1
+    //            if N > 3:
+    //                EvHelpMeCohesion(false)
+    //                N = 0
+    //    }
+    //    GlobalChecks.EvHelpMeCohesion(){
+    //    if c:
+    //            add cohesion*evhelpmeC
+    //        else:
+    //            substract cohesion*evhelpmeC
+    //    }
 
-// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+    // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 
 
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Tool repartition // Craft person available
-// + A partir de no tener ninguna herramienta y no cargar con muchos materiales, contar cuanto se tarda en tener potencial denuevo
-// + Usar "Invoke" puesto que no es un estado de Update()
-// + Hacer el chequeo cuando un arma se rompe
-public int cevS1 = 0; // Estado
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Tool repartition // Craft person available
+    // + A partir de no tener ninguna herramienta y no cargar con muchos materiales, contar cuanto se tarda en tener potencial denuevo
+    // + Usar "Invoke" puesto que no es un estado de Update()
+    // + Hacer el chequeo cuando un arma se rompe
+    public int cevS1 = 0; // Estado
     public int cevR1 = 0; // Vueltas
     public bool cont1 = false;
     public List<float> cev_supptools = new List<float>();
@@ -540,6 +540,26 @@ public int cevS1 = 0; // Estado
 
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Remains Well Fed
+    // + Cada X minutos revisar cuantas veces se mantuvo en el estado de <Bien Alimentado>
+    public void CEV_RemainsWellFed()
+    {
+
+    }
+    void CEV_RWF_Invoke()
+    {
+
+    }
+    public void CEV_RWF_Didnt()
+    {
+
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Frutal Recipes Sharing
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -552,6 +572,25 @@ public int cevS1 = 0; // Estado
     {
         float d = Mathf.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Mathf.Pow((x2 - x1), 2.0f)
         return d;
+    }
+    // EXTRA : Funcion de promedios
+    float E_Promedio(List<float> acev)
+    {
+        int clen = acev.Count;
+        float cmix = 0.0f; 
+        for (int i = 0; i < clen; i++)
+        {
+            cmix += acev[i];
+        }
+        float cavg = cmix / clen;
+        return cavg;
+    }
+    void E_P_Invoke()
+    {
+        float res_supprep = E_Promedio(cev_supprep);
+        Debug.Log("Support Repository: " + res_supprep.ToString());
+
+
     }
     // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 }

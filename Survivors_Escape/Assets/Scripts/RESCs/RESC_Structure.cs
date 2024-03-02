@@ -34,7 +34,7 @@ public class RESC_Structure : MonoBehaviour, ITargetable, IHurtResponder
 
     public bool CheckHit(HitInteraction data)
     {
-        Debug.Log("hit done");
+        Debug.Log("Hit done");
         return true;
     }
 
@@ -46,7 +46,7 @@ public class RESC_Structure : MonoBehaviour, ITargetable, IHurtResponder
             BreakAndDrop();
             Destroy(gameObject);
         }
-        Debug.Log(hp.ToString());
+        Debug.Log("Current STRUCTURE HP:" + hp.ToString());
     }
 
     void Start()

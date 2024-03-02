@@ -8,6 +8,7 @@ public class CraftManager : MonoBehaviour
     public CraftRecipeTemp rec_temp;
     public CraftRecipeSO[] recs;
     public CraftRecipeSO[] allr;
+    public SurvivorsEscape.CharacterController cc;
 
     public Transform contentH;
     public CraftRecipeTemp inCraft;
@@ -18,8 +19,14 @@ public class CraftManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inv = GetComponentInParent<INV_ScreenManager>();
-        GenRecs();
+        if (cc != null)
+        {
+            if (cc.IsOwner)
+            {
+                inv = GetComponentInParent<INV_ScreenManager>();
+                GenRecs();
+            }
+        }
     }
 
     // Update is called once per frame

@@ -94,6 +94,10 @@ public class STR_Main : MonoBehaviour
                             stob.UpPressG(ns);
                             //Debug.Log("Stored Pressure Gauge (" + ns.ToString() + ")");
                             break;
+                        case "Wood":
+                            break;
+                        case "Rock":
+                            break;
                     }
                 }
             }

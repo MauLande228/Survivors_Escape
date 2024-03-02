@@ -73,7 +73,12 @@ public class PlayerStats : MonoBehaviour
     private void UpdateStats()
     {
         // Prevent out of limits
-        if (health <= 0) { health = 0; }
+        if (health <= 0 && !life_lock) {
+            life_lock = true;
+            health = 0;
+            inv.IsDeadAsHell();
+
+        }
         if (health > maxhealth) { health = maxhealth; }
 
         if (hunger < 25.5 && !hunger_lock)
@@ -88,11 +93,10 @@ public class PlayerStats : MonoBehaviour
             inv.IsFeeding();
             // Recover luck and damage and defense
         }
-        if (hunger <= 0 && !life_lock)
+        if (hunger <= 0)
         {
-            life_lock = true;
             hunger = 0;
-            inv.IsDeadAsHell();
+            health -= hungerdmg * Time.deltaTime;
         }
         if (hunger > maxhunger) { hunger = maxhunger; }
 
@@ -100,11 +104,8 @@ public class PlayerStats : MonoBehaviour
         if (hunger > 0)
         {
             hunger -= idlehunger * Time.deltaTime;
-            if (health < 100) { health += regenhealth * Time.deltaTime; }
+            if (health < 100 && !hunger_lock) { health += regenhealth * Time.deltaTime; }
         }
-
-        // During hungry state
-        if (hunger <= 0) { health -= hungerdmg * Time.deltaTime; }
     }
 
     private void FallDamage(float spd)

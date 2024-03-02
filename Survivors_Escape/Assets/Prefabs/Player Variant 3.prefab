@@ -692,6 +692,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7161c9a29b2e2454bbc06d22d3cfc18d, type: 2}
   - {fileID: 11400000, guid: 4bd3f54952293e34aae5a4529cfc13cb, type: 2}
   - {fileID: 11400000, guid: 2446af1fb43b51747919178a4262ac06, type: 2}
+  cc: {fileID: 7167662983067830938}
   contentH: {fileID: 1567882087281713767}
   inCraft: {fileID: 0}
 --- !u!1 &3163213209508958993
