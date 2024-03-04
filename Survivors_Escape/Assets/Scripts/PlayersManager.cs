@@ -14,11 +14,13 @@ public class PlayersManager : NetworkBehaviour
     public List<NetworkObject> playerObjects = new List<NetworkObject>();
     public List<INV_ScreenManager> playerInventory = new List<INV_ScreenManager>();
     public List<SurvivorsEscape.CharacterController> playerReference = new List<SurvivorsEscape.CharacterController>();
+    public List<float> cev_allvgs = new List<float>();
 
     void Start()
     {
         Instance = this;
         Invoke(nameof(GetPlayersInSession), 5);
+        Invoke(nameof(E_P_Invoke), 25);
     }
 
     void Update()
@@ -482,6 +484,7 @@ public class PlayersManager : NetworkBehaviour
     public List<float> cev_hunrec = new List<float>();
     public void CEV_HungryRecovery()
     {
+        Debug.Log("WE ARE HEREEE");
         if (cevS2 == 0)
         {
             cont2 = true;
@@ -588,9 +591,10 @@ public class PlayersManager : NetworkBehaviour
     void E_P_Invoke()
     {
         float res_supprep = E_Promedio(cev_supprep);
+        cev_allvgs.Add(res_supprep);
         Debug.Log("Support Repository: " + res_supprep.ToString());
 
-
+        Invoke(nameof(E_P_Invoke), 25);
     }
     // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 }

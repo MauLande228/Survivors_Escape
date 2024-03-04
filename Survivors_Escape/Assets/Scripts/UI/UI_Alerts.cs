@@ -11,13 +11,13 @@ public class UI_Alerts : MonoBehaviour
     public bool inObjList = false;
     public GameObject AnyChest;
     public bool inAnyChest = false;
+    //private SurvivorsEscape.CharacterController cc;
 
-    private SurvivorsEscape.CharacterController cc;
     // Start is called before the first frame update
     void Start()
     {
-        cc = GetComponentInParent<SurvivorsEscape.CharacterController>();
-        inv = cc.GetComponentInChildren<INV_ScreenManager>();
+        //cc = GetComponentInParent<SurvivorsEscape.CharacterController>();
+        //inv = cc.GetComponentInChildren<INV_ScreenManager>();
     }
 
     // Update is called once per frame

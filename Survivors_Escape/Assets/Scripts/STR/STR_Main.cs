@@ -64,6 +64,7 @@ public class STR_Main : MonoBehaviour
     {
         STR_Objectives stob = st.ReturnObj();
         stob.ResetAll();
+        stob.UpResetWS();
 
         for (int i = 0; i < sslots.Length; i++)
         {
@@ -95,14 +96,22 @@ public class STR_Main : MonoBehaviour
                             //Debug.Log("Stored Pressure Gauge (" + ns.ToString() + ")");
                             break;
                         case "Wood":
+                            
                             break;
                         case "Rock":
+                            
                             break;
                     }
                 }
+                if (sslots[i].itemdata.itName.ToString() == "Wood")
+                {
+                    stob.UpWood(sslots[i].stack);
+                }
+                if (sslots[i].itemdata.itName.ToString() == "Rock")
+                {
+                    stob.UpStone(sslots[i].stack);
+                }
             }
-
-            
         }
     }
 }

@@ -10,7 +10,20 @@ public class SEHitBox : MonoBehaviour, IHitDetector
 
     private float _thickness = 0.025f;
     private IHitResponder _hitResponder;
+
+    public PlayerStats ply;
     public INV_ScreenManager inv;
+
+    private void Start()
+    {
+        ply = GetComponentInParent<PlayerStats>();
+        Invoke(nameof(GetInv), 3);
+    }
+
+    void GetInv()
+    {
+        inv = ply.GetComponentInChildren<INV_ScreenManager>();
+    }
 
     public IHitResponder HitResponder { get => _hitResponder; set => _hitResponder = value; }
 

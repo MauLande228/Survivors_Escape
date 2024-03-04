@@ -22,6 +22,7 @@ public class INV_ScreenManager : MonoBehaviour
 
     [Header("Refs")]
     public Transform dropPos;
+    public REF_DropPos dropObj;
 
     public GameObject slotTemp;
     public Transform contentHolder;
@@ -51,9 +52,10 @@ public class INV_ScreenManager : MonoBehaviour
     public STR_UI strui;
     public STR_Main strcurrent;
     public CraftManager craftui;
+    public REF_AllHolding allit;
 
     public STR_Objectives objui;
-    public GameObject pre_objui;
+    //public GameObject pre_objui;
 
     public GameObject uisign;
     public INV_CanvRef canvas;
@@ -67,13 +69,20 @@ public class INV_ScreenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cc = GetComponentInParent<SurvivorsEscape.CharacterController>();
+
         if (cc != null)
         {
             if (cc.IsOwner)
             {
+                dropObj = cc.GetComponentInChildren<REF_DropPos>();
+                dropPos = dropObj.GetComponent<Transform>();
+                hitbox = cc.GetComponentInChildren<SEHitBox>().GameObject();
+                allit = cc.GetComponentInChildren<REF_AllHolding>();
+
                 GenSlots();
-                GenUIAlerts();
-                GenObjList();
+                //GenUIAlerts();
+                //GenObjList();
 
                 ChangeSelected(1);
                 //strui = GetComponentInChildren<STR_UI>();
@@ -196,11 +205,20 @@ public class INV_ScreenManager : MonoBehaviour
     public void SetChecks(PlayersManager pd)
     {
         gchecks = pd;
+        
+        if (gchecks != null)
+        {
+            Debug.Log("Set PlayerManager");
+        }
     }
 
     public void IsHungry()
     {
-        gchecks.CEV_HungryRecovery();
+        Debug.Log("INV HERE");
+        if (gchecks != null)
+        {
+            gchecks.CEV_HungryRecovery();
+        }
     }
     public void IsFeeding()
     {
@@ -235,6 +253,19 @@ public class INV_ScreenManager : MonoBehaviour
             case 4:
                 break;
         }
+    }
+
+    public void SetAllItems(GameObject sa, GameObject ea, GameObject ra, GameObject da, GameObject sp, GameObject ep, GameObject rp, GameObject dp)
+    {
+        s_axe = sa;
+        e_axe = ea;
+        r_axe = ra;
+        d_axe = da;
+
+        s_pck = sp;
+        e_pck = ep;
+        r_pck = rp;
+        d_pck = dp;
     }
 
     public void UnEquip(int ct)
@@ -577,15 +608,15 @@ public class INV_ScreenManager : MonoBehaviour
         invSlots = invSlots_.ToArray();
         allSlots = allSlots_.ToArray();
     }
-    public void GenUIAlerts()
-    {
-        Instantiate(uisign, canvas.gameObject.transform);
-    }
-    public void GenObjList()
-    {
-        STR_Objectives o = Instantiate(pre_objui, this.gameObject.transform).GetComponent<STR_Objectives>();
-        objui = o;
-    }
+    //public void GenUIAlerts()
+    //{
+    //    Instantiate(uisign, canvas.gameObject.transform);
+    //}
+    //public void GenObjList()
+    //{
+    //    STR_Objectives o = Instantiate(pre_objui, this.gameObject.transform).GetComponent<STR_Objectives>();
+    //    objui = o;
+    //}
 
     public void UpdateCurrentSlot(Slot s)
     {
