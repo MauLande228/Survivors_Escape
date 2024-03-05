@@ -47,6 +47,10 @@ public class STR_UI : MonoBehaviour
 
     public void TakeSlot(int ss)
     {
+        //Debug.Log(ss.ToString());
+        //Debug.Log(allslots.Count.ToString());
+        //if (ss < allslots.Count) { 
+        //}
         if (allslots[ss].data != null)
         {
             Inv_itemSO dt = allslots[ss].data;

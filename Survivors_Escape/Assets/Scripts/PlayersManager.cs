@@ -10,15 +10,19 @@ public class PlayersManager : NetworkBehaviour
 {
     public static PlayersManager Instance { get; private set; }
     public STR_Main MainRepository;
+    public GameObject Chest1;
 
     public List<NetworkObject> playerObjects = new List<NetworkObject>();
     public List<INV_ScreenManager> playerInventory = new List<INV_ScreenManager>();
     public List<SurvivorsEscape.CharacterController> playerReference = new List<SurvivorsEscape.CharacterController>();
+    public List<float> cev_allvgs = new List<float>();
 
     void Start()
     {
         Instance = this;
         Invoke(nameof(GetPlayersInSession), 5);
+        Invoke(nameof(E_P_Invoke), 25);
+        Instantiate(Chest1);
     }
 
     void Update()
@@ -160,7 +164,7 @@ public class PlayersManager : NetworkBehaviour
     // + Separar cuanto tiempo se tardan en ayudarle y medir progreso de cercania
     int cevS3 = 0; // Estado
     int cevR3 = 0; // Vueltas
-    bool cont3 = true;
+    public bool cont3 = true;
     public List<float> cev_suppdead = new List<float>();
     public void CEV_SupportDeadPlayers()
     {
@@ -220,7 +224,7 @@ public class PlayersManager : NetworkBehaviour
 
     int cevS4 = 0; // Estado
     int cevR4 = 0; // Vueltas
-    bool cont4 = true;
+    public bool cont4 = true;
     public List<float> checknearest = new List<float>();
     public List<float> cev_apprdead = new List<float>();
 
@@ -478,7 +482,7 @@ public class PlayersManager : NetworkBehaviour
     // + Tener comida en el inventario si se está lejos del repositorio
     int cevS2 = 0; // Estado
     int cevR2 = 0; // Vueltas
-    bool cont2 = true;
+    public bool cont2 = true;
     public List<float> cev_hunrec = new List<float>();
     public void CEV_HungryRecovery()
     {
@@ -560,8 +564,7 @@ public class PlayersManager : NetworkBehaviour
 
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Frutal Recipes Sharing
-
+    // Frutal Recipes Sharing - CANCELLED FOR NOW
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
@@ -588,9 +591,10 @@ public class PlayersManager : NetworkBehaviour
     void E_P_Invoke()
     {
         float res_supprep = E_Promedio(cev_supprep);
+        cev_allvgs.Add(res_supprep);
         Debug.Log("Support Repository: " + res_supprep.ToString());
 
-
+        Invoke(nameof(E_P_Invoke), 25);
     }
     // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 }

@@ -70,41 +70,69 @@ public class PlayerStats : MonoBehaviour
 
     bool hunger_lock = false;
     bool life_lock = false;
+    bool crazy_lock = false;
+    bool regen_lock = false;
+
     private void UpdateStats()
     {
-        // Prevent out of limits
-        if (health <= 0 && !life_lock) {
-            life_lock = true;
-            health = 0;
-            inv.IsDeadAsHell();
-
-        }
-        if (health > maxhealth) { health = maxhealth; }
-
-        if (hunger < 25.5 && !hunger_lock)
-        {
-            hunger_lock = true;
-            inv.IsHungry();
-            // Affect luck and damage and defense //uicolor.Danger();
-        }
-        if (hunger > 65.5 && hunger_lock)
-        {
-            hunger_lock = false;
-            inv.IsFeeding();
-            // Recover luck and damage and defense
-        }
-        if (hunger <= 0)
-        {
-            hunger = 0;
-            health -= hungerdmg * Time.deltaTime;
-        }
-        if (hunger > maxhunger) { hunger = maxhunger; }
-
-        // During idle state
+        // Idle HUNGER states
         if (hunger > 0)
         {
             hunger -= idlehunger * Time.deltaTime;
-            if (health < 100 && !hunger_lock) { health += regenhealth * Time.deltaTime; }
+            if (health < 100 && !regen_lock) { health += regenhealth * Time.deltaTime; }
+        }
+        if (health > 0 && hunger_lock)
+        {
+            health -= hungerdmg * Time.deltaTime;
+        }
+        // Debuff and Recover HUNGER states
+        if (hunger < 75 && !regen_lock) // DEBUFF of no more regen
+        {
+            regen_lock = true;
+            healthBar.bar.color = new Color32(255, 55, 55, 255);
+        }
+        if (hunger > 75 && regen_lock) // RECOVER ability to regen
+        {
+            regen_lock = false;
+            healthBar.bar.color = new Color32(255, 194, 0, 255);
+        }
+
+        if (hunger < 25 && !crazy_lock) // DEBUFF of luck and damage and defense // uicolor.CoDanger();
+        {
+            crazy_lock = true;
+
+            hungerBar.bar.color = new Color32(255, 55, 55, 255);
+            inv.IsHungry();
+        }
+        if (hunger > 50 && crazy_lock) // RECOVER the luck and damage and defense // uicolor.CoNormal();
+        {
+            crazy_lock = false;
+            hunger_lock = false;
+
+            hungerBar.bar.color = new Color32(255, 194, 0, 255);
+            inv.IsFeeding();
+        }
+
+        // Prevent HEALTH out of limits
+        if (health <= 0 && !life_lock)
+        {
+            life_lock = true;
+            health = 0;
+            inv.IsDeadAsHell();
+        }
+        if (health > maxhealth)
+        {
+            health = maxhealth;
+        }
+        // Prevent HUNGER out of limits
+        if (hunger <= 0 && !hunger_lock)
+        {
+            hunger_lock = true;
+            hunger = 0;
+        }
+        if (hunger > maxhunger)
+        {
+            hunger = maxhunger;
         }
     }
 

@@ -6,6 +6,8 @@ public class CraftManager : MonoBehaviour
 {
     private INV_ScreenManager inv;
     public CraftRecipeTemp rec_temp;
+    public List<CraftRecipeTemp> recs_ref;
+
     public CraftRecipeSO[] recs;
     public CraftRecipeSO[] allr;
     public SurvivorsEscape.CharacterController cc;
@@ -56,6 +58,7 @@ public class CraftManager : MonoBehaviour
             if (recs[i] != null)
             {
                 CraftRecipeTemp rec = Instantiate(rec_temp.gameObject, contentH).GetComponent<CraftRecipeTemp>();
+                recs_ref.Add(rec);
 
                 rec.rec_so = recs[i];
                 rec.rec_ico.sprite = recs[i].ss_ico;
@@ -80,6 +83,7 @@ public class CraftManager : MonoBehaviour
     public void AddRecs(int i)
     {
         CraftRecipeTemp rec = Instantiate(rec_temp.gameObject, contentH).GetComponent<CraftRecipeTemp>();
+        recs_ref.Add(rec);
 
         rec.rec_so = allr[i];
         rec.rec_ico.sprite = allr[i].ss_ico;
@@ -95,6 +99,26 @@ public class CraftManager : MonoBehaviour
             else
             {
                 rec.rec_reqr.text = $"{rec.rec_reqr.text}, {allr[i].reqs[j].rdata.itName} - {allr[i].reqs[j].rneed}";
+            }
+        }
+    }
+
+    CraftRecipeTemp c;
+    public void Check_Recs(int i)
+    {
+        //Debug.Log(i.ToString());
+        //Debug.Log(recs_ref.Count.ToString());
+
+        if (isCraft)
+        {
+            Not_Craft(c);
+        }
+        else
+        {
+            if (i <= recs_ref.Count)
+            {
+                c = recs_ref[i - 1];
+                Try_Craft(c);
             }
         }
     }

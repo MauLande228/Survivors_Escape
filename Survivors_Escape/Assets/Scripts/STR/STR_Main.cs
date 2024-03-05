@@ -6,7 +6,7 @@ public class STR_Main : MonoBehaviour
 {
     public STR_Slot[] sslots;
     public STR_Slot sslotPrefab;
-    public int chestSize = 14;
+    public int chestSize = 10;
     public bool opened;
     public int bh = 0; // 0 for Normal // 1 for Repository
 
@@ -64,6 +64,7 @@ public class STR_Main : MonoBehaviour
     {
         STR_Objectives stob = st.ReturnObj();
         stob.ResetAll();
+        stob.UpResetWS();
 
         for (int i = 0; i < sslots.Length; i++)
         {
@@ -94,15 +95,18 @@ public class STR_Main : MonoBehaviour
                             stob.UpPressG(ns);
                             //Debug.Log("Stored Pressure Gauge (" + ns.ToString() + ")");
                             break;
-                        case "Wood":
-                            break;
-                        case "Rock":
-                            break;
                     }
                 }
-            }
 
-            
+                if (sslots[i].itemdata.itName.ToString() == "Wood")
+                {
+                    stob.UpWood(sslots[i].stack);
+                }
+                if (sslots[i].itemdata.itName.ToString() == "Rock")
+                {
+                    stob.UpStone(sslots[i].stack);
+                }
+            }
         }
     }
 }

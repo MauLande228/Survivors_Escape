@@ -13,6 +13,7 @@ public class INV_ScreenManager : MonoBehaviour
     public KeyCode invKey = KeyCode.Tab;
     public KeyCode equipKey = KeyCode.Q;
     public KeyCode dropKey = KeyCode.R;
+    private KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8 };
 
     [Header("Settings")]
     public int invSize = 7;
@@ -28,8 +29,8 @@ public class INV_ScreenManager : MonoBehaviour
 
     public GameObject allButtons;
     public TextMeshProUGUI Qtext;
-
     public TextMeshProUGUI descSpace;
+    public TextMeshProUGUI Ktext;
 
     public Slot[] invSlots;
     public Slot[] allSlots;
@@ -50,13 +51,20 @@ public class INV_ScreenManager : MonoBehaviour
 
     public STR_UI strui;
     public STR_Main strcurrent;
+
     public CraftManager craftui;
+    public bool crafton = true;
 
     public STR_Objectives objui;
     public GameObject pre_objui;
 
     public GameObject uisign;
     public INV_CanvRef canvas;
+
+    public REF_ItemsButtons uiDQRS;
+    public GameObject uiDesc;
+    public GameObject uiBTNS;
+    public GameObject uiKeyu;
 
     public SurvivorsEscape.CharacterController cc;
     public PlayersManager gchecks;
@@ -72,10 +80,15 @@ public class INV_ScreenManager : MonoBehaviour
             if (cc.IsOwner)
             {
                 GenSlots();
+                GenDescSpace();
+                GenInvButtons();
+
+                GenKeyUses(); UpdateKeyUse(1);
+
                 GenUIAlerts();
                 GenObjList();
 
-                ChangeSelected(1);
+                ChangeSelected(0);
                 //strui = GetComponentInChildren<STR_UI>();
                 //craftui = GetComponentInChildren<CraftManager>();
                 //objui = GetComponentInChildren<STR_Objectives>();
@@ -107,6 +120,9 @@ public class INV_ScreenManager : MonoBehaviour
                     {
                         strui_op = true;
                         craftui.gameObject.SetActive(false); // Disables CRAFTING
+                        UpdateKeyUse(2); crafton = false;
+                        ChangeSelected(currentSlot); // Enable QText
+
                         strcurrent.Open(strui);
                         strui.op = true;
                     }
@@ -114,6 +130,8 @@ public class INV_ScreenManager : MonoBehaviour
                     {
                         strui_op = false;
                         craftui.gameObject.SetActive(true); // Re enables CRAFTING
+                        UpdateKeyUse(1); crafton = true;
+
                         strui.Close(strui);
                         strui.op = false;
                     }
@@ -126,32 +144,56 @@ public class INV_ScreenManager : MonoBehaviour
                     if (objui.inrange)
                     {
                         craftui.gameObject.SetActive(false); // Disables CRAFTING
+                        UpdateKeyUse(0); crafton = false;
                         objui.transform.localPosition = new Vector3(0, 80, 0);
+                    }
+
+                    if (crafton) // Debug.Log(KeyCode.Alpha2.ToString()); <-> "Alpha2"
+                    {
+                        if (Input.GetKeyDown(KeyCode.Alpha1)) { craftui.Check_Recs(1); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha2)) { craftui.Check_Recs(2); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha3)) { craftui.Check_Recs(3); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha4)) { craftui.Check_Recs(4); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha5)) { craftui.Check_Recs(5); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha6)) { craftui.Check_Recs(6); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha7)) { craftui.Check_Recs(7); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha8)) { craftui.Check_Recs(8); ChangeSelected(currentSlot); }
+                    }
+                    if (strui_op)
+                    {
+                        if (Input.GetKeyDown(KeyCode.Alpha1)) { strui.TakeSlot(0); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha2)) { strui.TakeSlot(1); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha3)) { strui.TakeSlot(2); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha4)) { strui.TakeSlot(3); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha5)) { strui.TakeSlot(4); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha6)) { strui.TakeSlot(5); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha7)) { strui.TakeSlot(6); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha8)) { strui.TakeSlot(7); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha9)) { strui.TakeSlot(8); ChangeSelected(currentSlot); }
+                        else if (Input.GetKeyDown(KeyCode.Alpha0)) { strui.TakeSlot(9); ChangeSelected(currentSlot); }
                     }
 
                     if (Input.GetKeyDown(equipKey))
                     {
-                        //if (allSlots[currentSlot].itisEmpty == false)
-                        //{
-                        if (allSlots[currentSlot].data != null)
+                        if (strui_op)
                         {
-                            if (allSlots[currentSlot].data.itEqup)
+                            StoreSlot(currentSlot);
+                        }
+                        else
+                        {
+                            if (allSlots[currentSlot].data != null)
                             {
-                                switch (currentSlot)
+                                if (allSlots[currentSlot].data.itEqup)
                                 {
-                                    case 0:
-                                        break;
-                                    default:
-                                        SwapSlots(currentSlot);
-                                        break;
+                                    switch (currentSlot)
+                                    {
+                                        case 0: break;
+                                        default: SwapSlots(currentSlot); break;
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                ConsumeSlot(currentSlot);
+                                else { ConsumeSlot(currentSlot); }
                             }
                         }
-                        //}
                     }
 
                     if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -173,6 +215,7 @@ public class INV_ScreenManager : MonoBehaviour
                     {
                         objui.inrange = false;
                         craftui.gameObject.SetActive(true); // Re enables CRAFTING
+                        UpdateKeyUse(1); crafton = true;
                         objui.transform.localPosition = new Vector3(-10000, 0, 0);
                     }
                     if (strui.inrange)
@@ -191,6 +234,15 @@ public class INV_ScreenManager : MonoBehaviour
                 //}
             }
         }
+    }
+
+    public void NumericCraft()
+    {
+
+    }
+    public void NumericStore()
+    {
+
     }
 
     public void SetChecks(PlayersManager pd)
@@ -341,13 +393,20 @@ public class INV_ScreenManager : MonoBehaviour
 
                     if (allSlots[currentSlot].stackSize != 0)
                     {
-                        if (allSlots[currentSlot].data.itEqup)
+                        if (strui_op)
                         {
-                            SetToButtonsA();
+                            SetToButtonsC();
                         }
                         else
                         {
-                            SetToButtonsB();
+                            if (allSlots[currentSlot].data.itEqup)
+                            {
+                                SetToButtonsA();
+                            }
+                            else
+                            {
+                                SetToButtonsB();
+                            }
                         }
                         UpdateDesc(allSlots[currentSlot].data.itName, allSlots[currentSlot].data.itType.ToString(), allSlots[currentSlot].data.itDesc);
                         //Debug.Log(allSlots[currentSlot].data.itType.ToString());
@@ -376,6 +435,12 @@ public class INV_ScreenManager : MonoBehaviour
     {
         allButtons.SetActive(true);
         Qtext.text = "Consume";
+    }
+
+    void SetToButtonsC()
+    {
+        allButtons.SetActive(true);
+        Qtext.text = "Store";
     }
 
     void SetToNoButtons()
@@ -554,6 +619,25 @@ public class INV_ScreenManager : MonoBehaviour
     public void UpdateNoDesc()
     {
         descSpace.text = "No item in slot!";
+        SetToNoButtons();
+    }
+
+    public void UpdateKeyUse(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                Ktext.text = "";
+                break;
+            case 1:
+                Ktext.text = "Press a number to craft";
+                break;
+            case 2:
+                Ktext.text = "Press a number to take items";
+                break;
+            default:
+                break;
+        }
     }
 
     private void GenSlots()
@@ -585,6 +669,24 @@ public class INV_ScreenManager : MonoBehaviour
     {
         STR_Objectives o = Instantiate(pre_objui, this.gameObject.transform).GetComponent<STR_Objectives>();
         objui = o;
+    }
+    public void GenDescSpace()
+    {
+        TextMeshProUGUI d = Instantiate(uiDesc, uiDQRS.gameObject.transform).GetComponent<TextMeshProUGUI>();
+        descSpace = d;
+    }
+    public void GenInvButtons()
+    {
+        RectTransform q = Instantiate(uiBTNS, uiDQRS.gameObject.transform).GetComponent<RectTransform>();
+        allButtons = q.gameObject;
+
+        REF_QText t = q.GetComponentInChildren<REF_QText>();
+        Qtext = t.GetComponent<TextMeshProUGUI>();
+    }
+    public void GenKeyUses()
+    {
+        TextMeshProUGUI k = Instantiate(uiKeyu, this.gameObject.transform).GetComponent<TextMeshProUGUI>();
+        Ktext = k;
     }
 
     public void UpdateCurrentSlot(Slot s)
