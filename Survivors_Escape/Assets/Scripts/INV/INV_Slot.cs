@@ -106,7 +106,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void Drop()
     {
-        GetComponentInParent<INV_ScreenManager>().DropItem(this);
+        inv.DropItem(this);
     }
 
     public void Clean()

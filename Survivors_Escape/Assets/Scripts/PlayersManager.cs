@@ -53,7 +53,6 @@ public class PlayersManager : NetworkBehaviour
                     MainRepository = obj.GetComponent<STR_Main>();
                 }
             }
-            
         }
 
         foreach (NetworkObject p in playerObjects)
@@ -161,7 +160,7 @@ public class PlayersManager : NetworkBehaviour
 
     // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
     // 0HP player support in time
-    // + Separar cuanto tiempo se tardan en ayudarle y medir progreso de cercania
+    // + Cuanto tiempo se tardan en ayudar a alguien herido
     int cevS3 = 0; // Estado
     int cevR3 = 0; // Vueltas
     public bool cont3 = true;
@@ -221,7 +220,12 @@ public class PlayersManager : NetworkBehaviour
     {
         cont3 = false;
     }
+    // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 
+
+    // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+    // 0hp support in proximity
+    // Medir progreso de cercania
     int cevS4 = 0; // Estado
     int cevR4 = 0; // Vueltas
     public bool cont4 = true;
@@ -233,7 +237,6 @@ public class PlayersManager : NetworkBehaviour
     // + No matter the player, check if the nearest distance is closer than the prev one
     public void CEV_ApproachDeadPlayers(SurvivorsEscape.CharacterController itsme)
     {
-        Debug.Log("Se llamo");
         player_sdp = new List<SurvivorsEscape.CharacterController>();
         foreach (SurvivorsEscape.CharacterController p in playerReference)
         {
@@ -325,36 +328,6 @@ public class PlayersManager : NetworkBehaviour
         // Enviar valor
         cev_apprdead.Add(cev);
     }
-
-    //    float curr_dist2 = 10000.0
-    //    float evhelpmeC = 0.002
-
-    //    GlobalChecks.EvHelpMe(yo){
-    //        CharacterController nearest = FindNearest(yo)
-    //        EvHelpLoop(yo, nearest)
-    //    }
-    //    GlobalChecks.EvHelpLoop(yo, nearest){
-    //    while curr_dist2 > 15.0:
-    //            wait(10s)
-    //            new_dist = distancia(yo.x, yo.y, nearest.x, nearest.y)
-    //            if new_dist < curr_dist2:
-    //                EvHelpMeCohesion(true)
-    //            else:
-    //                EvHelpMeCohesion(false)
-
-    //            curr_dist2 = new_dist
-    //            N = N + 1
-    //            if N > 3:
-    //                EvHelpMeCohesion(false)
-    //                N = 0
-    //    }
-    //    GlobalChecks.EvHelpMeCohesion(){
-    //    if c:
-    //            add cohesion*evhelpmeC
-    //        else:
-    //            substract cohesion*evhelpmeC
-    //    }
-
     // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 
 
@@ -470,8 +443,7 @@ public class PlayersManager : NetworkBehaviour
 
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Trade consistency of choice
-
+    // Trade consistency of choice - CANCELLED FOR NOW
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
@@ -479,7 +451,8 @@ public class PlayersManager : NetworkBehaviour
     // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
     // Hungry Bar Recovery
     // + Usar justo despues de estar muy bajo de comida y en efecto de vista nublada por ello
-    // + Tener comida en el inventario si se está lejos del repositorio
+    // + Cada cierto tiempo revisar si se tiene comida en el inventario si se está lejos del repositorio
+    // + Cuando se tarda en estar menos de 33 de vida a estar por encima de 66
     int cevS2 = 0; // Estado
     int cevR2 = 0; // Vueltas
     public bool cont2 = true;

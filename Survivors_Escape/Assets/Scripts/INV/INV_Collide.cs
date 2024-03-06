@@ -7,22 +7,39 @@ using UnityEngine;
 
 public class INV_Collide : NetworkBehaviour
 {
-    static bool bDestroyed = true;
+    public bool bDestroyed = false;
+    public INV_PickUp pickup;
+    NetworkObject no;
+
+    private void Start()
+    {
+        pickup = GetComponent<INV_PickUp>();
+        no = pickup.GetComponent<NetworkObject>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {   
         if (other.CompareTag("Player"))
         {
-            INV_PickUp pickup = this.GetComponent<INV_PickUp>();
             GameObject go = other.gameObject;
             SurvivorsEscape.CharacterController cc = go.GetComponent<SurvivorsEscape.CharacterController>();
+
+            Debug.Log("+ - + - + - + - + - + - +  - + - + - + - + - + - + TOCADO");
+
+            if (pickup == null)
+            {
+                Debug.Log("+ - + - + - + - + - + - + - + - + - +  - + - + - + - + ES NULO, NO EXISTE");
+            }
 
             if (pickup != null && cc != null)
             {
                 if (cc.IsOwner)
                 {
-                    Debug.Log("PICK UP");
-                    bDestroyed = other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup, cc);
+                    if (!bDestroyed)
+                    {
+                        Debug.Log("PICK UP");
+                        bDestroyed = other.GetComponentInChildren<INV_ScreenManager>().AddItem(pickup, cc);
+                    }
                 }
             }
             else
@@ -40,8 +57,15 @@ public class INV_Collide : NetworkBehaviour
 
             if (bDestroyed)
             {
-                Destroy(pickup.gameObject);
+                //Destroy(pickup.gameObject);
+                DestroyItemServerRpc();
             }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyItemServerRpc()
+    {
+        no.Despawn();
     }
 }

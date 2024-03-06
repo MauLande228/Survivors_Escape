@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class STR_Main : MonoBehaviour
+public class STR_Main : NetworkBehaviour
 {
     public STR_Slot[] sslots;
     public STR_Slot sslotPrefab;

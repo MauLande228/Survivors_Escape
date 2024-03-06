@@ -16,7 +16,10 @@ GameObject:
   - component: {fileID: 5740538601821997373}
   - component: {fileID: 4785451020952812484}
   - component: {fileID: 5983198760299146992}
+  - component: {fileID: 2173860499753233229}
   - component: {fileID: 7984916021226074195}
+  - component: {fileID: 8964742215252051898}
+  - component: {fileID: -6173097584642634649}
   m_Layer: 0
   m_Name: item_orange
   m_TagString: Untagged
@@ -177,6 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00958cb0bf2847d4bab6155a8148e26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bDestroyed: 0
+  pickup: {fileID: 0}
 --- !u!65 &5983198760299146992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -198,6 +203,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.10160875, y: 0.10683762, z: 0.16384621}
   m_Center: {x: 0, y: 0, z: -0.07192309}
+--- !u!114 &2173860499753233229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672860074491410910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08543b08dea61e34fb707ff9b4f3932d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
+  stackSize: 0
 --- !u!114 &7984916021226074195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +233,41 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &8964742215252051898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672860074491410910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
+--- !u!114 &-6173097584642634649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672860074491410910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

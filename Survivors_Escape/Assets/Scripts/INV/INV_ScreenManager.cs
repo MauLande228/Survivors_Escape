@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
@@ -1249,7 +1250,7 @@ public class INV_ScreenManager : MonoBehaviour
             UnEquip(currentTool);
         }
 
-        Spawner.Instace.SpawnObjectServerRpc(Spawner.Instace.GetItemIndex(slot.data), slot.stackSize, x, y, z);
+        Spawner.Instace.SpawnObjectServerRpc(i, slot.stackSize, x, y, z);
         //Debug.Log("Here");
         UpdateNoDesc();
         slot.Clean();
@@ -1272,7 +1273,7 @@ public class INV_ScreenManager : MonoBehaviour
         float y = positon.y;
         float z = positon.z;
         //SetToNoButtons();
-        Spawner.Instace.SpawnObjectServerRpc(Spawner.Instace.GetItemIndex(dt), nl, x, y, z);
+        Spawner.Instace.SpawnObjectServerRpc(i, nl, x, y, z);
         //INV_PickUp pickup = Instantiate(itDropModel, dropPos).AddComponent<INV_PickUp>();
         //pickup.transform.position = dropPos.position;
         //pickup.transform.SetParent(null);
