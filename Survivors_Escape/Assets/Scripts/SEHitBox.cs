@@ -31,8 +31,12 @@ public class SEHitBox : MonoBehaviour, IHitDetector
         HitInteraction hitData = null;
         IHurtBox hurtBox = null;
         RaycastHit[] hits = Physics.BoxCastAll(start, halfExtents, direction, orientation, distance, _layerMask);
+
+        //Debug.Log(hits.Length.ToString());
+
         foreach (RaycastHit hit in hits)
         {
+            Debug.Log("+ - + - + - + - + - + - + - + - + - + For each");
             hurtBox = hit.collider.GetComponent<IHurtBox>();
             if(hurtBox != null)
             {

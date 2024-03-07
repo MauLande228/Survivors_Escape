@@ -12,6 +12,7 @@ public class HitInteraction
 
     public bool Validate()
     {
+        Debug.Log("+ - + - + - + - + - + - + - + - + - + - + - + Validate");
         if(HurtBox != null)
         {
             if(HurtBox.CheckHit(this))

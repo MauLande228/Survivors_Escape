@@ -1215,7 +1215,9 @@ public class INV_ScreenManager : MonoBehaviour
                 }
                 if (s == 0) { DoEquip(invSlots[0].data.itName); }
                 int g = GetGem(pickUp.data.itName);
+                Debug.Log("Took the wep");
                 if (g < 4) { hasTool = true; gchecks.CEV_NewCraftedTool(g, hasTool); }
+                Debug.Log("After gcheck");
                 return true;
                 //cc.TakeWeapon(pickUp);
                 //Vector3 newPosition = new Vector3(0.087f, 0.082f, 0.07f);

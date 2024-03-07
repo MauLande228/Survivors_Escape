@@ -29,6 +29,20 @@ public class RESC_Structure : MonoBehaviour, ITargetable, IHurtResponder
     [SerializeField] private Rigidbody _RbTarget;
 
     private List<SEHurtBox> _hurtBoxes = new List<SEHurtBox>();
+    void Start()
+    {
+        px = droploc.position.x;
+        py = droploc.position.y;
+        pz = droploc.position.z;
+        _hurtBoxes = new List<SEHurtBox>(GetComponentsInChildren<SEHurtBox>());
+
+        foreach (SEHurtBox hb in _hurtBoxes)
+        {
+            Debug.Log("HURTBOX FOUND");
+            hb.HurtResponder = this;
+        }
+    }
+
     bool ITargetable.Targetable { get => _isTargetable; }
     Transform ITargetable.TargetTransform { get => _targetTransform; }
 
@@ -49,18 +63,7 @@ public class RESC_Structure : MonoBehaviour, ITargetable, IHurtResponder
         Debug.Log("Current STRUCTURE HP:" + hp.ToString());
     }
 
-    void Start()
-    {
-        px = droploc.position.x;
-        py = droploc.position.y;
-        pz = droploc.position.z;
-        _hurtBoxes = new List<SEHurtBox>(GetComponentsInChildren<SEHurtBox>());
-
-        foreach (SEHurtBox hb in _hurtBoxes)
-        {
-            hb.HurtResponder = this;
-        }
-    }
+    
 
     void Update()
     {

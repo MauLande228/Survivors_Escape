@@ -2465,6 +2465,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1856530415071762338, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4031696834700952788, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Name
@@ -2570,32 +2575,37 @@ PrefabInstance:
     - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Size.x
-      value: 1
+      value: 1.1505344
       objectReference: {fileID: 0}
     - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 1.1622314
       objectReference: {fileID: 0}
     - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Size.z
-      value: 1
+      value: 1.3542613
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Center.x
-      value: 0
+      value: -0.075267255
       objectReference: {fileID: 0}
     - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Center.y
-      value: 0
+      value: -0.0052079107
       objectReference: {fileID: 0}
     - target: {fileID: 7410738029844459690, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}
       propertyPath: m_Center.z
-      value: 0
+      value: 0.02413457
       objectReference: {fileID: 0}
     - target: {fileID: 8546038840327876487, guid: 45c3f3910e2c3af4d8432f6f88b178f8,
         type: 3}

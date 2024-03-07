@@ -328,6 +328,7 @@ namespace SurvivorsEscape
 
             if(_hitting)
             {
+                Debug.Log("+ - + - + - + - + - + - + - + Se dio el golpe");
                 _hitBox.CheckHit();
             }
         }
